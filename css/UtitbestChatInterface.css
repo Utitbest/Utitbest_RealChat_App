@@ -432,6 +432,18 @@ div :is(div .times){
     text-overflow: ellipsis ;
 }
 
+.flowsa0 utitno {
+    color: white;
+    font-size: 10px;
+    width: 400px;
+    width: 255px;
+    text-align: center;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .flowsa1{ 
     display: flex;
     height: auto;
@@ -472,6 +484,18 @@ div :is(div .times){
     white-space: nowrap;
     text-overflow: ellipsis ;
 }
+
+.flowsa1 utitno {
+    color: gray;
+    font-size: 10px;
+    width: 255px;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
 
 .theInputsEtc{
     height: 8%;
@@ -965,12 +989,12 @@ div :is(div .times){
   display: none;
 }
 .somep{
-    word-break: break-all;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-size: .8em;
     color: gray;
+    width: 100%;
     font-weight: 500;
 }
 .preview{
@@ -1208,4 +1232,45 @@ div :is(div .times){
 }
 .collorback{
     background-color: #d8d5d591;
+}
+.toPreviewImageMessage{
+    height: 100vh;
+    width: 100%;
+    display: none;
+    position: absolute;
+    z-index: 200;
+    transition: 1s linear;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    background-color: rgb(26 27 27 / 91%);
+}
+.toPreviewImageMessage1{
+    height: 95%;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.thumbnails {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 1%;
+    top: 1%;
+    background-color: #eee;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+.ingell{
+    transition: 2s linear;
+    object-fit: contain;
+    display: flex;
+    width: 100%;
+    height: 100%;
 }

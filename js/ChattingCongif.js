@@ -57,22 +57,45 @@ let contentdrop1 = document.getElementById('Bored1');
 
 let XenderPlate = document.querySelector('.inputing .selmm')
 let XenderParent = document.querySelector('.theInputsEtc .inputing')
-
 let currentPlayingAudio = null
 
-let NewElement = document.createElement("div");
-    NewElement.className = "ForVoiceChat";
+////////////////////////////////////////////////////////
+// Element creation & Existence
+let NewElement = document.createElement("div");/////////
+    NewElement.className = "ForVoiceChat";////////////////
 
-    let Secondnew = document.createElement("span");
-    Secondnew.className = "Secondnew";
+    let Secondnew = document.createElement("span");////////////////
+    Secondnew.className = "Secondnew";//////////////////////
 
-    let ThirdElement = document.createElement("span");
-    ThirdElement.className = "ThirdElement";
+    let ThirdElement = document.createElement("span");////////////////////
+    ThirdElement.className = "ThirdElement";///////////////////
+////////////////////////////////////////////////////////////////////
+let documentte = document.createElement('div');
+    documentte.className = 'toPreviewImageMessage';
 
+    let documetes = document.createElement('figure')
+    documetes.className = 'toPreviewImageMessage1';
+    
+    let emmm = document.createElement('img')
+        emmm.className = 'ingell'
 
+    let remover = document.createElement('span')
+        remover.innerHTML = `<i class="fa fa-arrow-left"></i>`;
+        remover.className = 'thumbnails'
+
+        remover.addEventListener('click', ()=>{
+            documentte.style.display = 'none';
+            emmm.src =  null;
+        })
+
+        documetes.appendChild(emmm);
+        documentte.append(remover, documetes)
+        document.body.appendChild(documentte)
+////////////////////////////////////////////////////////
 if (Notification.permission !== 'granted') {
     Notification.requestPermission();
 }
+//////////////////////////////////////////////////////////////////
 
 
 // function Settings(){
@@ -463,6 +486,7 @@ async function loadAllUsers() {
                     document.querySelectorAll('.ForVoiceChat').forEach(NewElement => NewElement.remove())
                     if (isRecording && mediaRecorder && mediaRecorder.state !== "inactive"){
                         mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                        contentdrop2.style.visibility = 'visible'
                     }
                     clearInterval(progressInterval);
                     clearTimeout(timeoutId);
@@ -472,7 +496,6 @@ async function loadAllUsers() {
                     contentdrop1.removeEventListener('click', contentDropClickListener)
                     contentdrop1.innerHTML = `<i class="fa fa-microphone"></i>`
                     figureMan.setAttribute('RAdata-set-aria', user.id)
-                    VoiceNoteMessage(currentUserId, userElement)
 
                     document.querySelectorAll('.individualchat').forEach(el => {
                         el.classList.remove('usertagColor');
@@ -504,8 +527,9 @@ async function loadAllUsers() {
 
                     chatId = [currentUserId, otherUserId].sort().join('_'); 
                     Chatterinfordisply.innerHTML = user.firstname+ ' ' + user.lastname;
-                    initializeChat(chatId, userElement); 
+                    initializeChat(chatId, userElement);
                     sendingFilesAsSMS(chatId, currentUserId, otherUserId)
+                    VoiceNoteMessage(currentUserId, userElement)
                 });
                
 
@@ -683,7 +707,6 @@ async function profileDisplayer() {
 }
 await profileDisplayer()
 
-// TO CONTINUE ON HOW TO RETURN CURRENTTIME TO THE USERTAGS
 async function initializeChat(chatId, userElement) {
     try {
         if (ActiveChat === chatId) {
@@ -733,11 +756,40 @@ async function initializeChat(chatId, userElement) {
                         <h6>${getRelativeTime(message.timestamp.seconds)}</h6>
                     `;
                 } else if (message.content?.type === 'image') {
-                    messageElement2.innerHTML = `
-                        <img src="${message.content.url}" alt="${message.content.name}" style="max-width:300px; height:90%; border-radius:1em;">
-                        <utitbest style="padding-top:.3em; padding-buttom:.3em;">${message.content.name}</utitbest>
-                        <h6>${getRelativeTime(message.timestamp.seconds)}</h6>
-                    `;
+                    // messageElement2.innerHTML = `
+                    //     <img src="${message.content.url}" alt="${message.content.name}" style="max-width:300px; height:90%; border-radius:1em;">
+                    //     <utitno style="padding-top:.3em; padding-buttom:.3em;">${message.content.name}</utitno>
+                    //     <h6>${getRelativeTime(message.timestamp.seconds)}</h6>
+                    // `;
+                    const forimage = document.createElement('img');
+                    forimage.setAttribute('alt', `${message.content.name}`)
+                    forimage.src = message.content.url;
+                    forimage.style.maxWidth = '300px';
+                    forimage.style.height = '90%';
+                    forimage.style.borderRadius = '1em';
+                    forimage.style.cursor = 'pointer'
+
+                    const follwed = document.createElement('utitno')
+                    follwed.innerText = message.content.name;
+                    follwed.style.paddingTop = '.3em';
+                    follwed.style.paddingBottom = '.3em';
+
+                    const ftime = document.createElement('h6')
+                    ftime.innerText = getRelativeTime(message.timestamp.seconds)
+
+                    messageElement2.append(forimage, follwed, ftime)
+
+                    forimage.addEventListener('click', ()=>{
+                        documentte.style.display = 'flex';
+                        emmm.src = message.content.url;
+                    })
+                    // videoplayer.addEventListener('dblclick', ()=>{
+                    //     if(document.fullscreenElement){
+                    //         document.exitFullscreen()
+                    //     }else{
+                    //         videoplayer.requestFullscreen()
+                    //     }
+                    // })
                 } else if (message.content?.type === 'video') {
                     
                     const videoMessageTag = document.createElement('div')
@@ -748,7 +800,7 @@ async function initializeChat(chatId, userElement) {
                     const videoplayer = document.createElement('video');
                             videoplayer.className = 'videoplayer';
                             videoplayer.src = message.content.url;
-                    const videoName = document.createElement('utitbest')
+                    const videoName = document.createElement('utitno')
                             videoName.innerHTML = message.content.name;
                     const videotimecount = document.createElement('utitbest');
                             videotimecount.innerText = '00:00'
@@ -857,7 +909,7 @@ async function initializeChat(chatId, userElement) {
                             timeNull.className = 'timeNull';
                             timeNull.innerHTML = '00:00'
                             audiomessageTag.append(playButton, rangewrap, timeNull)
-                        const albumname = document.createElement('utitbest')
+                        const albumname = document.createElement('utitno')
                                 albumname.className = 'albumname'
                         const timescrap = document.createElement('h6')
                                 timescrap.style.alignItems = 'unset'
@@ -944,17 +996,112 @@ async function initializeChat(chatId, userElement) {
                     const messageElement = event.target.closest(".user_response");
                     if (!messageElement) return;
                     
-                    
-                    const confirmDelete = confirm("Do you want to delete this message?");
-                    if (confirmDelete) {
-                        firebaseService.deleteMessage(chatId, message);
+                    const existingPopup = document.getElementById("confirm-popup");
+                    if (existingPopup) {
+                        messageElement.style.backgroundColor = ''
+                        existingPopup.remove();
                     }
+                    
+                    messageElement.style.backgroundColor = '#fff'
+                    const popup = document.createElement("div");
+                    popup.id = "confirm-popup";
+                    popup.style.position = "absolute";
+                    popup.style.width = "180px";
+                    popup.style.padding = "10px";
+                    popup.style.background = "#fff";
+                    popup.style.boxShadow = "0px 4px 6px rgba(0,0,0,0.2)";
+                    popup.style.borderRadius = "8px";
+                    popup.style.display = "flex";
+                    popup.style.flexDirection = "column";
+                    popup.style.alignItems = "center";
+                    popup.style.gap = "5px";
+                    popup.style.zIndex = "1000";
+                
+                    
+                    const chatRect = chatlies1.getBoundingClientRect();
+                    const popupWidth = 150;
+                    const popupHeight = 80; 
+                
+                    let posX = event.pageX;
+                    let posY = event.pageY;
+                    
+                    if (posX + popupWidth > chatRect.right) {
+                        posX -= popupWidth + 10; 
+                    }
+                    
+                    if (posY + popupHeight > chatRect.bottom) {
+                        posY -= popupHeight + 10; 
+                    }
+                    
+                    if (posY < chatRect.top) {
+                        posY = chatRect.top + 10;
+                    }
+                
+                    if (posX < chatRect.left) {
+                        posX = chatRect.left + 10;
+                    }
+                
+                    popup.style.left = `${posX}px`;
+                    popup.style.top = `${posY}px`;
+                    
+                    const messageText = document.createElement("p");
+                    messageText.textContent = "Delete this message?";
+                    messageText.style.fontSize = "12px";
+                    messageText.style.marginBottom = "5px";
+
+                    const newparentcontain = document.createElement('div')
+                    newparentcontain.style.width = '100%'
+                    newparentcontain.style.display = 'flex'
+                    newparentcontain.style.justifyContent = 'space-evenly'
+
+                    const confirmBtn = document.createElement("button");
+                    confirmBtn.textContent = "Confirm";
+                    confirmBtn.style.background = "red";
+                    confirmBtn.style.color = "#fff";
+                    confirmBtn.style.border = "none";
+                    confirmBtn.style.padding = "5px 10px";
+                    confirmBtn.style.cursor = "pointer";
+                    confirmBtn.style.borderRadius = "5px";
+                
+                    const cancelBtn = document.createElement("button");
+                    cancelBtn.textContent = "Cancel";
+                    cancelBtn.style.background = "#ccc";
+                    cancelBtn.style.color = "#000";
+                    cancelBtn.style.border = "none";
+                    cancelBtn.style.padding = "5px 10px";
+                    cancelBtn.style.cursor = "pointer";
+                    cancelBtn.style.borderRadius = "5px";
+                
+                    popup.appendChild(messageText);
+                    
+                    newparentcontain.appendChild(confirmBtn)
+                    newparentcontain.appendChild(cancelBtn)
+                    popup.appendChild(newparentcontain)
+                    document.body.appendChild(popup);
+                
+                    confirmBtn.addEventListener("click", () => {
+                        firebaseService.deleteMessage(chatId, message);
+                        popup.remove();
+                        messageElement.style.backgroundColor = ''
+                    });
+                
+                    cancelBtn.addEventListener("click", () => {
+                        popup.remove();
+                        messageElement.style.backgroundColor = ''
+                    });
+                
+                    document.addEventListener("click", function removePopup(event) {
+                        if (!popup.contains(event.target)) {
+                            popup.remove();
+                            messageElement.style.backgroundColor = ''
+                            document.removeEventListener("click", removePopup);
+                        }
+                    }, { once: true });
                 });
 
                 messageElement1.append(messageElement2);
                 messageElement.append(messageElement1);
                 chatlies1.append(messageElement);
-
 
             });
             
@@ -1013,6 +1160,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
     const vaildfilesize = 10 * 1024 * 1024;
     
     fileSelection.addEventListener('change', function(event){
+    contentdrop1.style.visibility = 'hidden'
     document.querySelectorAll('.preview').forEach(preview => preview.remove());
     chatInputText.value = '';
     chatInputText.setAttribute('disabled', '')
@@ -1034,6 +1182,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
             chatInputText.style.cursor = ''
             chatInputText.removeAttribute('disabled')
             sendbutton.removeAttribute('disabled')
+            contentdrop1.style.visibility = 'visible'
             sendbutton.innerHTML = `
                 <i class="fa fa-paper-plane res"></i>
             `
@@ -1060,6 +1209,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
         document.querySelectorAll('.preview').forEach(preview => preview.remove());
         chatInputText.style.cursor = ''
         chatInputText.removeAttribute('disabled')
+        contentdrop1.style.visibility = 'visible'
         sendbutton.removeAttribute('disabled')
         sendbutton.innerHTML = `
             <i class="fa fa-paper-plane res"></i>
@@ -1073,6 +1223,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
         document.querySelectorAll('.preview').forEach(preview => preview.remove());
         chatInputText.style.cursor = ''
         chatInputText.removeAttribute('disabled')
+        contentdrop1.style.visibility = 'visible'
         sendbutton.removeAttribute('disabled')
         sendbutton.innerHTML = `
             <i class="fa fa-paper-plane res"></i>
@@ -1085,7 +1236,9 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
             reader.onload = function(e){
                 
                 tweek.innerHTML = `
-                    <img src="${e.target.result}" alt="Image preview" style="width:300px; heigth:90%">
+                    <div style="width:100%; height:300px; display:flex;">
+                        <img src="${e.target.result}" alt="Image preview" style="width:95%; height:95%; object-fit:contain;">
+                    </div>
                     <p class="somep">${selecion.name}</p>
                 `
             }
@@ -1103,7 +1256,9 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
         const reader = new FileReader()
             reader.onload = function(e){
                 tweek.innerHTML = `
-                    <video src="${e.target.result}" flie.type="${selecion.type}" style="width:300px" heigth:90%; controls></video>
+                    <div style="display:flex; width:100%; height:260px;">
+                        <video src="${e.target.result}" flie.type="${selecion.type}" style="width:100%" heigth:100%; controls></video>  
+                    </div>
                     <p class="somep">${selecion.name}</p>
                 `
             }
@@ -1134,6 +1289,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
             sendbutton.innerHTML = `
                 <i class="fa fa-paper-plane res"></i>
             `;
+            contentdrop1.style.visibility = 'visible'
             return;
         }
     
@@ -1148,11 +1304,16 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
             sendbutton.innerHTML = `
                 <i class="fa fa-paper-plane res"></i>
             `;
+            contentdrop1.style.visibility = 'visible'
             return;
         }
         newsendbuds.disabled = true;
         try {
-            const storageRef = ref(firebaseService.storage, `chatFiles/${chatId}/${selecion.name}`);
+            const uniqueId = Math.random().toString(36).substring(2, 10); 
+            const fileName = `voice_notes_${Date.now()}_${uniqueId}.mp3`;
+            const NewUploadName = selecion.name + fileName
+            console.log(NewUploadName)
+            const storageRef = ref(firebaseService.storage, `chatFiles/${chatId}/${NewUploadName}`);
             const uploadTask = uploadBytesResumable(storageRef, selecion);
             uploadTask.on('state_changed', (snapshot) => {
                 tweek.innerHTML = '';
@@ -1182,17 +1343,18 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
                 sendbutton.innerHTML = `
                     <i class="fa fa-paper-plane res"></i>
                 `;
+                contentdrop1.style.visibility = 'visible'
             }, async () => {
                 const fileURL = await getDownloadURL(uploadTask.snapshot.ref);
                 const messageContent = {
                     type: fileType,
-                    name: selecion.name,
+                    name: NewUploadName,
                     url: fileURL,
                     size: selecion.size,
                 };
     
                 await firebaseService.sendMessage(chatId, senderId, recipientId, messageContent);
-    
+                console.log(NewUploadName)
                 firebaseService.showToast('File sent successfully!', 'success');
                 selecion = null;
                 document.querySelectorAll('.preview').forEach(preview => preview.remove());
@@ -1200,6 +1362,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
                 chatInputText.style.cursor = '';
                 chatInputText.removeAttribute('disabled');
                 sendbutton.removeAttribute('disabled');
+                contentdrop1.style.visibility = 'visible'
                 sendbutton.innerHTML = `
                     <i class="fa fa-paper-plane res"></i>
                 `;
@@ -1210,7 +1373,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
             
             // Ensure deletion if any error occurs
             try {
-                const storageRef = ref(firebaseService.storage, `chatFiles/${chatId}/${selecion.name}`);
+                const storageRef = ref(firebaseService.storage, `chatFiles/${chatId}/${NewUploadName}`);
                 await deleteObject(storageRef); // Use the correct reference for deletion
                 console.log("File successfully deleted due to error.");
             } catch (deleteError) {
@@ -1226,6 +1389,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
             sendbutton.innerHTML = `
                 <i class="fa fa-paper-plane res"></i>
             `;
+            contentdrop1.style.visibility = 'visible'
         }
     });
     
@@ -1238,85 +1402,48 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
 function ToViewUserspictureInMax(userId){
     const figureMan = document.querySelector('.iconsdem figure')
     figureMan.addEventListener('click', async ()=>{
-        const newmedia = document.createElement('div')
-            newmedia.className = 'newmedia';
-
-        const remover = document.createElement('span')
-              remover.className = 'remover';
-              remover.innerHTML = `<i class="fa fa-arrow-left"></i>`;
-
-              remover.addEventListener('click', ()=>{
-                document.querySelectorAll('.newmedia').forEach(newmedia => newmedia.remove())
-                // newmedia.remove()
-              })
-
-
-        const figuremaster = document.createElement('figure')
-              figuremaster.className = 'Tunde'
-        const imgMan = document.createElement('img')
-              imgMan.className = 'imgMan'
-              figuremaster.append(imgMan)
+        documentte.style.display = 'flex'
 
             const storageRef = ref(firebaseService.storage, `profilePictures/${userId}.jpg`);
             const defaultRef = ref(firebaseService.storage, `profilePictures/defualtman.png`);
            
             try {
                 const dowm = await getDownloadURL(storageRef)
-                imgMan.src = dowm
+                emmm.src = dowm
             } catch (error) {
                   if (error.code === 'storage/object-not-found'){
                     const ty = await getDownloadURL(defaultRef)
-                    imgMan.src = ty
+                    emmm.src = ty
                   }else{
-                    imgMan.src = `./Super icons/defualtman.png`;
+                    emmm.src = `./Super icons/defualtman.png`;
                     console.error('Error fetching profile picture:', error.message);
                   }
             }
-              newmedia.append(remover, figuremaster)
-              document.body.append(newmedia)
     })
 }
 
 async function ChatterMate() {
 
     const figureMan = document.querySelector('.currentchatterinfor figure');
-   
-      
-        const newmedia = document.createElement('div');
-        newmedia.className = 'newmedia';
-
-        const remover = document.createElement('span');
-        remover.className = 'remover';
-        remover.innerHTML = `<i class="fa fa-arrow-left"></i>`;
-        remover.addEventListener('click', () => {
-            document.querySelectorAll('.newmedia').forEach((newmedi) => newmedi.remove());
-        });
-
-        const figuremaster = document.createElement('figure');
-        figuremaster.className = 'Tunde';
-        const imgMan = document.createElement('img');
-        imgMan.className = 'imgMan';
-        figuremaster.append(imgMan);
 
     figureMan.addEventListener('click', async () => {
+        documentte.style.display = 'flex';
         const pals = figureMan.getAttribute('RAdata-set-aria')
         const storageRef = ref(firebaseService.storage, `profilePictures/${pals}.jpg`);
         const defaultRef = ref(firebaseService.storage, `profilePictures/defualtman.png`);
         try {
             const dowm = await getDownloadURL(storageRef);
-            imgMan.src = dowm;
+            emmm.src = dowm;
         } catch (error) {
             if (error.code === 'storage/object-not-found') {
                 const ty = await getDownloadURL(defaultRef);
-                imgMan.src = ty;
+                emmm.src = ty;
             } else {
-                imgMan.src = `./Super icons/defualtman.png`;
+                emmm.src = `./Super icons/defualtman.png`;
                 console.error('Error fetching profile picture:', error.message);
             }
         }
 
-        newmedia.append(remover, figuremaster);
-        document.body.append(newmedia);
     });
 }
 await ChatterMate()
@@ -1527,8 +1654,6 @@ async function VoiceNoteMessage(Currentuser, Element) {
     });
 
     
-    
-
     Secondnew.append(ThirdElement);
     NewElement.append(Secondnew);
 
@@ -1536,7 +1661,7 @@ async function VoiceNoteMessage(Currentuser, Element) {
         isRecording = true;
         XenderPlate.style.display = "none";
         contentdrop1.innerHTML = `<i class="fa fa-microphone fa-fade" style="color:red;"></i>`
-
+        contentdrop2.style.visibility = 'hidden'
         XenderParent.append(NewElement);
 
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -1567,14 +1692,17 @@ async function VoiceNoteMessage(Currentuser, Element) {
                 mediaRecorder.stream.getTracks().forEach(track => track.stop());
                 document.querySelectorAll('.ForVoiceChat').forEach(NewElement => NewElement.remove())
                 XenderPlate.style.display = "flex";
+                contentdrop2.style.visibility = 'visible'
                 clearInterval(progressInterval);
                 clearTimeout(timeoutId);
             });
     }
 
      function stopVoiceNote() {
-
+        contentdrop2.style.visibility = 'visible'
         contentdrop1.innerHTML = `<i class="fa fa-microphone"></i>`;
+        const uniqueId = Math.random().toString(36).substring(2, 10); 
+        const fileName = `voice_notes_${Date.now()}_${uniqueId}.mp3`;
         if (isRecording && mediaRecorder && mediaRecorder.state !== "inactive") {
             isRecording = false;
 
@@ -1583,7 +1711,7 @@ async function VoiceNoteMessage(Currentuser, Element) {
 
             mediaRecorder.addEventListener("stop", async () => {
                 const audioBlob = new Blob(audiolhunks, { type: "audio/mp3" });
-                uploadAudio(audioBlob);
+                uploadAudio(audioBlob, fileName);
             });
             mediaRecorder.stop();
             ThirdElement.style.width = "0%";
@@ -1592,12 +1720,10 @@ async function VoiceNoteMessage(Currentuser, Element) {
             XenderPlate.style.display = "flex";
         }
     }
-
-    const fileName = `voice_notes_${Date.now()}.mp3`;
+       
     
-    function uploadAudio(audioBlob) {
+    function uploadAudio(audioBlob, fileName) {
             const storageRef1 = ref(firebaseService.storage, `chatFiles/${chatId}/${fileName}`);
-
             uploadBytes(storageRef1, audioBlob)
             .then(snapshot => {
                 const fileSize = audioBlob.size; 
@@ -1608,21 +1734,24 @@ async function VoiceNoteMessage(Currentuser, Element) {
                     url,
                     fileSize,
                     fileType,
-                    filePath
+                    filePath,
+                    fileName
                 }))
             })
-            .then(({url, fileSize, fileType, filePath}) => {
-                sendVoiceNote(url, fileSize, fileType, filePath);
+            .then(({url, fileSize, fileType, filePath, fileName}) => {
+                sendVoiceNote(url, fileSize, fileType, filePath, fileName);
             })
             .catch(error => {
+                contentdrop2.style.visibility = 'visible'
                 console.error("Upload failed:", error);
                 firebaseService.showToast(`"Upload failed:${error.message}`, "error");
             });
     }
 
-    async function sendVoiceNote(audioBlob, fileSize, fileType, filePath) {
+    async function sendVoiceNote(audioBlob, fileSize, fileType, filePath, fileName) {
         const otheruseruid = Element.getAttribute(`data-user-id`)
-
+        const NewChatID = [Currentuser, otheruseruid].sort().join('_'); 
+        console.log(fileName)
         const messageContent = {
             type: "audio",
             name: fileName,
@@ -1630,10 +1759,11 @@ async function VoiceNoteMessage(Currentuser, Element) {
             size: fileSize,
         };
             try{
-                await firebaseService.sendMessage(chatId, Currentuser, otheruseruid, messageContent);
+                await firebaseService.sendMessage(NewChatID, Currentuser, otheruseruid, messageContent);
                 firebaseService.showToast("Voice note sent!", "success");
             }
             catch(error){
+                contentdrop2.style.visibility = 'visible'
                 console.error("Error saving message:", error);
                 firebaseService.showToast("Failed to send message. Try again.", "error");
             };

@@ -628,17 +628,28 @@ updateLastMessage(chatId) {
                   const returnDeletedRecieve = document.querySelector(`.individualchat[data-user-id="${recipientId}"] .username_chat p`)
                   const returnDeletedSend = document.querySelector(`.individualchat[data-user-id="${senderId}"] .username_chat p`)
                   if (returnDeletedRecieve) {
-                    returnDeletedRecieve.textContent = lastMessage.content
+                    if(typeof lastMessage.content === 'string') {
+                      returnDeletedRecieve.textContent = lastMessage.content
+                    }else if (lastMessage.content.type) {
+                      returnDeletedRecieve.textContent = `${lastMessage.content.type.toUpperCase()} File Sent`;
+                    }else {
+                      returnDeletedRecieve.textContent = 'Unknown Message Type';
+                    }
                   }
 
                   if (returnDeletedSend) {
-                    returnDeletedSend.textContent = lastMessage.content === "Message Deleted" ? "Message Deleted" : lastMessage.content;
-                 } else {
-                    console.warn(`Sender tag not found for user ID: ${recipientId}`);
+                    if(typeof lastMessage.content === 'string') {
+                      returnDeletedSend.textContent = lastMessage.content
+                      console.log('stings')
+                    }else if (lastMessage.content.type) {
+                      console.log('file has type')
+                      returnDeletedSend.textContent = `${lastMessage.content.type.toUpperCase()} File Sent`;
+                    }else {
+                      console.log('errors')
+                      returnDeletedSend.textContent = 'Unknown Message Type';
+                    }
                   }
-                 if(returnDeletedSend){
-                  returnDeletedSend.textContent = lastMessage.content
-                 }
+                  
               } else {
                   console.log('failed to work as needed')
               }
