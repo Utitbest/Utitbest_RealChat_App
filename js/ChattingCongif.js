@@ -286,7 +286,6 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-
 async function UpdatingName(userId) {
     let EditNameButton = document.querySelectorAll('.informs span')
     let NameTag = document.querySelectorAll('.informs p')
@@ -1481,7 +1480,7 @@ async function VoiceNoteMessage(Currentuser, Element) {
 async function checkDataAvailability() {
     try {
         const response = await fetch("https://www.google.com/favicon.ico", { mode: "no-cors" });
-        console.log("✅ Data is available.");
+        // console.log("✅ Data is available.");
     } catch (error) {
         firebaseService.showToast("⚠ You may have run out of data! Check your internet connection.", 'error');
     }
