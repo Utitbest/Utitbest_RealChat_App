@@ -172,7 +172,8 @@ main .chat_area{
     margin-bottom: .2em;
 }
 .secondusers .individualchat:hover{
-    background-color: #d8d5d591;
+    /* background-color: #d8d5d591; */
+    background-color: #c1bcbc91;
     cursor: pointer;
     transition: background-color .4s ease-in-out;
 }
@@ -1025,6 +1026,7 @@ div :is(div .times){
     position: absolute;
     top: 1%;
     background-color: #eee;
+    z-index: 5;
 }
 .tweek{
     height: auto;

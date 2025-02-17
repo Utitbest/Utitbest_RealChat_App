@@ -1,70 +1,5 @@
-// const WebSocket = require('ws');
-// const admin = require('firebase-admin');
-// const path = require('path');
+// // server.js
 
-// // Initialize Firebase Admin SDK with service account credentials
-// admin.initializeApp({
-//     credential: admin.credential.cert(path.join(__dirname, 'utitbest-realchat-firebase-adminsdk-qcdcq-c8053925da.json'))
-// });
-
-// const db = admin.firestore();
-
-// // Create a WebSocket server on port 8080
-// const wss = new WebSocket.Server({ port: 8080 });
-
-// wss.on('connection', (ws) => {
-//     console.log('✅ New client connected');
-
-//     // Listen for messages from clients
-//     ws.on('message', async (message) => {
-//         try {
-//             const data = JSON.parse(message);
-
-//             if (data.type === 'online' || data.type === 'offline') {
-//                 // Update the user's status in Firestore
-//                 await db.collection('users').doc(data.userId).update({
-//                     status: data.type,
-//                     lastSeen: admin.firestore.FieldValue.serverTimestamp()
-//                 });
-//                 console.log(`ℹ️ User ${data.userId} is now ${data.type}`);
-//             }
-
-//             // Broadcast the message to all connected clients
-//             wss.clients.forEach(client => {
-//                 if (client.readyState === WebSocket.OPEN) {
-//                     client.send(JSON.stringify(data));
-//                 }
-//             });
-//         } catch (error) {
-//             console.error('❌ Error processing message:', error);
-//         }
-//     });
-
-//     // When a client disconnects
-//     ws.on('close', () => {
-//         console.log('❌ Client disconnected');
-//     });
-// });
-
-// console.log('✅ WebSocket server running on ws://localhost:8080');
-
-
-
-// // var admin = require("firebase-admin");
-
-// // var serviceAccount = require("path/to/serviceAccountKey.json");
-
-// // admin.initializeApp({
-// //   credential: admin.credential.cert(serviceAccount),
-// //   databaseURL: "https://utitbest-realchat-default-rtdb.firebaseio.com"
-// // });
-
-
-
-
-
-
-// server.js
 const WebSocket = require('ws');
 
 // Initialize WebSocket server on port 8080
@@ -85,3 +20,54 @@ wss.on('connection', (ws) => {
         console.log('A user disconnected');
     });
 });
+
+
+
+
+// const WebSocket = require('ws');
+// const url = require('url');
+
+// const wss = new WebSocket.Server({ port: 8080 });
+
+// console.log('WebSocket server running on ws://localhost:8080');
+
+// const clients = new Map(); // Store connected users
+
+// wss.on('connection', (ws, req) => {
+//     const params = url.parse(req.url, true).query;
+//     const userId = params.userId; // Extract user ID from query params
+
+//     if (!userId) {
+//         ws.close();
+//         return;
+//     }
+
+//     clients.set(userId, ws);
+//     console.log(`User ${userId} connected`);
+
+//     // Broadcast to all clients that this user is online
+//     broadcastStatus(userId, true);
+
+//     // Handle incoming messages (optional)
+//     ws.on('message', (message) => {
+//         console.log(`Received from ${userId}: ${message}`);
+//     });
+
+//     // Handle disconnection
+//     ws.on('close', () => {
+//         console.log(`User ${userId} disconnected`);
+//         clients.delete(userId);
+//         broadcastStatus(userId, false);
+//     });
+// });
+
+// // Function to broadcast user status to all connected clients
+// function broadcastStatus(userId, isOnline) {
+//     const message = JSON.stringify({ userId, isOnline });
+
+//     for (const [_, client] of clients) {
+//         if (client.readyState === WebSocket.OPEN) {
+//             client.send(message);
+//         }
+//     }
+// }

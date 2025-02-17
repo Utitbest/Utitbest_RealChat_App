@@ -36,8 +36,8 @@ let mediaRecorder = null;
 let progressInterval, timeoutId;
 
 
+let socket = new WebSocket('ws://localhost:8080');
 
-let socket;
 var contentdrop2 = document.querySelector('.Bored2');
 var settings = document.querySelectorAll('.listOfcontents')
 var droplist = document.querySelector('.dropdown1')
@@ -53,6 +53,7 @@ const appender = document.querySelector('.theInputsEtc .inputing')
 const userprofileId = document.querySelector('.signs');
 const fileSelection = document.querySelector('.tochat')
 let contentDropClickListener;
+const currentimeofActive = document.querySelector('.chattername p')
 let contentdrop1 = document.getElementById('Bored1');
 
 let XenderPlate = document.querySelector('.inputing .selmm')
@@ -98,115 +99,6 @@ if (Notification.permission !== 'granted') {
 //////////////////////////////////////////////////////////////////
 
 
-// function Settings(){
-
-//     document.addEventListener("DOMContentLoaded", () => {
-//     onAuthStateChanged(auth, async (user) => {
-//         if (user) {
-//             try {
-//                 currentUserId = user.uid;
-//                 const userData = await firebaseService.getUserData(currentUserId);
-
-//                 settings[0].addEventListener('click', function(){
-//                     containerRpy.innerHTML =  `
-//                         <div class="Profile_i">
-//                         <h2>Profile</h2>
-//                         <div style="display:flex; width: 90%; align-items:end;">
-//                             <label for="eel" style="margin-left: .5em; position: relative;" title="Change profile picture">
-//                                 <img src="" alt="">
-//                                 <i class="fa fa-edit rr"></i>
-//                                 <span class="spnman" style="position:absolute; top:36%; left:35%; align-items:center; justify-content:center; height:30px; width:30px; border-radius:50%;  background:#3f6bde;">
-//                                     <i class="fa fa-spinner fa-spin"style="color:white;"></i>
-//                                 </span>
-//                             </label>
-//                             <button class="uploadalbum" style=" cursor:pointer; font-weight:600; display:flex; padding:.6em; height:15px; border:none; background:#3f6bde; color:white; border-radius:7px; align-items:center; justify-content:center;">Save</button>
-//                            <input type="file" accept="image/*" id="eel" class="nothings">
-//                         </div>  
-//                            <div class="namecoms">
-//                                 <div class="informs" title="${userData.firstname}">
-//                                     <p>${userData.firstname}</p>
-//                                     <span class="EditName">
-//                                         <i class="fa fa-edit" style="z-index:-100;"></i>
-//                                     </span>
-//                                 </div>
-//                                 <div style="margin-top:.6em;" class="informs" title="${userData.lastname}">
-//                                     <p>${userData.lastname}</p>
-//                                     <span class="EditName">
-//                                         <i class="fa fa-edit" style="z-index:-100;"></i>
-//                                     </span>
-//                                 </div>
-//                                 <div style="margin-top:.6em;" class="informs" title="${userData.email}">
-//                                     <p>${userData.email}</p>
-//                                     <span class="EditName" style="visibility:hidden;">
-//                                         <i class="fa fa-edit"></i>
-//                                     </span>
-//                                 </div>
-//                                 <button style="margin-top:5em;" type="button">Log out</button>
-//                            </div>
-//                         </div>
-//                     `;
-//                     UpdatingName(currentUserId)
-//                     Tologout()
-//                     updateprofilepic()
-//                 })
-
-//             } catch (error) {
-//                 console.error("Error retrieving user data:", error);
-//             }
-//         } else {
-//             window.location.href = './indexLogin.html';
-//         }
-//     });
-// });
-//     settings[1].addEventListener('click', function(){
-//         containerRpy.innerHTML = `
-//             <div class="Chat">
-//                 <h2>Chats</h2>
-//                 <button>Clear all messages</button>
-//                 <p>Delete all messages from chats</p>
-//             </div>
-//         `;
-//     })
-    
-//     settings[2].addEventListener('click', function(){
-//         containerRpy.innerHTML = `
-//             <div class="vid_voce">
-//                 <h2>Voice</h2>
-//                 <h5>Microphone</h5>
-//                 <div class="testingmicro">
-//                     <i class="fa fa-microphone"></i>
-//                     <h5>Device microphone</h5>
-//                 </div>
-//                 <div class="testingmicro1">
-//                     <h5>Speak into your device mic</h5>
-//                     <div class="">
-//                             <i class="fa fa-microphone"></i>
-//                             <progress max="100" min="0" value=""></progress>
-//                     </div>
-//                 </div>
-//                 <div class="speakers">
-//                     <h5>Speakers</h5>
-//                     <div class="Xbass">
-//                         <i class="fa fa-volume-up"></i>
-//                         <h5 style="padding-left:0;">Device speakers</h5>
-//                     </div>
-//                     <button class="">Click to test speak..</button>
-//                 </div>
-//             </div>
-//         `;
-//     })
-//     settings[3].addEventListener('click',function(){
-//         containerRpy.innerHTML = `
-//             <div class="Customize">
-//                 <p class="fa-shake">&#128540;</p>
-//                 <h2 class="fa-bounce">COMING SOON!!</h2>
-//             </div>
-//         `;
-//     })
-// }
-// Settings()
-// ... (Your other code, including the definitions of UpdatingName, Tologout, 
-//      updateprofilepic, firebaseService, auth, currentUserId, etc.) ...
 
 function Settings() {  
     document.addEventListener("DOMContentLoaded", () => {
@@ -345,6 +237,54 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
+async function updateUserStatus(isOnline) {
+    const user = auth.currentUser;
+    if (!user) return;  
+    const userStatusRef = doc(firebaseService.db, `status/${user.uid}`);
+
+    await setDoc(userStatusRef, {
+        state: isOnline ? 'online' : 'offline',
+        email: user.email, 
+        last_changed: serverTimestamp()
+    }, { merge: true });
+
+}
+
+
+socket.onopen = async () => {
+    updateUserStatus(true)
+};
+
+function displayUserStatus(otherUserId, userTagElement) {
+    const otherUserStatusRef = doc(firebaseService.db, `status/${otherUserId}`);
+    const onlineDetectorElement = userTagElement.querySelector('.active_detect');
+
+    onSnapshot(otherUserStatusRef, (snapshot) => {
+        if (!snapshot.exists()) return;
+
+        const status = snapshot.data();
+        if (status?.state === 'online') {
+            onlineDetectorElement.style.backgroundColor = 'green';
+        } else {
+            onlineDetectorElement.style.backgroundColor = 'red';
+        }
+    });
+}
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        updateUserStatus(true); 
+        window.addEventListener('beforeunload', () =>{
+            updateUserStatus(false)
+            socket.onclose = async () => {
+                updateUserStatus(false)
+             };
+        } );
+        window.addEventListener('online', () => updateUserStatus(true));
+        window.addEventListener('offline', () => updateUserStatus(false));
+    }
+});
+
 
 
 async function UpdatingName(userId) {
@@ -441,9 +381,7 @@ async function loadAllUsers() {
         }
         
         users.forEach((user)  => {
-                if (user.id === currentUserId) {
-                    return; 
-                }
+                if (user.id === currentUserId){return}
 
                 const userElement = document.createElement("div");
                 userElement.className = 'individualchat';
@@ -476,13 +414,16 @@ async function loadAllUsers() {
                     </div>
                 `;
                 setUserProfilePicture(user.id, userElement)
-                initializeWebSocket(user.id);
+                
+                displayUserStatus(user.id, userElement)
 
                 const repumm = document.querySelector('.currentchatterinfor figure img')
                 const figureMan = document.querySelector('.currentchatterinfor figure');
 
                 userElement.addEventListener('click', async () => {
-
+                    const otherUserStatusRef = collection(firebaseService.db, `status/${otherUserId}`);
+                    const ddkd = getDoc(otherUserStatusRef)
+                    console.log(otherUserStatusRef)
                     document.querySelectorAll('.ForVoiceChat').forEach(NewElement => NewElement.remove())
                     if (isRecording && mediaRecorder && mediaRecorder.state !== "inactive"){
                         mediaRecorder.stream.getTracks().forEach(track => track.stop());
@@ -508,13 +449,12 @@ async function loadAllUsers() {
                     }
                     
                     otherUserId = user.id;
-
                     const storageRef = ref(firebaseService.storage, `profilePictures/${otherUserId}.jpg`);
                     const defaultRef = ref(firebaseService.storage, `profilePictures/defualtman.png`); 
                     let profilePicUrl = null
                     try {
                         profilePicUrl = await getDownloadURL(storageRef);
-                        repumm.src = profilePicUrl; // Set user's profile picture
+                        repumm.src = profilePicUrl; 
                     } catch (error) {
                         if (error.code === 'storage/object-not-found') {
                         const defaultPicUrl = await getDownloadURL(defaultRef);
@@ -756,11 +696,7 @@ async function initializeChat(chatId, userElement) {
                         <h6>${getRelativeTime(message.timestamp.seconds)}</h6>
                     `;
                 } else if (message.content?.type === 'image') {
-                    // messageElement2.innerHTML = `
-                    //     <img src="${message.content.url}" alt="${message.content.name}" style="max-width:300px; height:90%; border-radius:1em;">
-                    //     <utitno style="padding-top:.3em; padding-buttom:.3em;">${message.content.name}</utitno>
-                    //     <h6>${getRelativeTime(message.timestamp.seconds)}</h6>
-                    // `;
+                   
                     const forimage = document.createElement('img');
                     forimage.setAttribute('alt', `${message.content.name}`)
                     forimage.src = message.content.url;
@@ -783,13 +719,7 @@ async function initializeChat(chatId, userElement) {
                         documentte.style.display = 'flex';
                         emmm.src = message.content.url;
                     })
-                    // videoplayer.addEventListener('dblclick', ()=>{
-                    //     if(document.fullscreenElement){
-                    //         document.exitFullscreen()
-                    //     }else{
-                    //         videoplayer.requestFullscreen()
-                    //     }
-                    // })
+                   
                 } else if (message.content?.type === 'video') {
                     
                     const videoMessageTag = document.createElement('div')
@@ -1273,9 +1203,21 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
     PreviewAll.append(exitIt, tweek, newsendbuds)
     appender.append(PreviewAll);
     sendbutton.setAttribute('disabled', '')
-    sendbutton.innerHTML = `
-        <i class="fa fa-ban"></i>
-    `
+    sendbutton.innerHTML = `<i class="fa fa-ban"></i>`;
+
+    document.addEventListener("click", (event) => {
+        const isUserTag = event.target.closest(".individualchat");
+        if(isUserTag) {
+            document.querySelectorAll('.preview').forEach(preview => preview.remove());
+            fileSelection.value = ''
+            chatInputText.style.cursor = ''
+            chatInputText.removeAttribute('disabled')
+            contentdrop1.style.visibility = 'visible'
+            sendbutton.removeAttribute('disabled')
+            sendbutton.innerHTML = `<i class="fa fa-paper-plane res"></i> `;
+            
+        }
+    });
     
     newsendbuds.addEventListener('click', async () => {
         if (!selecion) {
@@ -1398,241 +1340,6 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
     })
 
 }
-
-function ToViewUserspictureInMax(userId){
-    const figureMan = document.querySelector('.iconsdem figure')
-    figureMan.addEventListener('click', async ()=>{
-        documentte.style.display = 'flex'
-
-            const storageRef = ref(firebaseService.storage, `profilePictures/${userId}.jpg`);
-            const defaultRef = ref(firebaseService.storage, `profilePictures/defualtman.png`);
-           
-            try {
-                const dowm = await getDownloadURL(storageRef)
-                emmm.src = dowm
-            } catch (error) {
-                  if (error.code === 'storage/object-not-found'){
-                    const ty = await getDownloadURL(defaultRef)
-                    emmm.src = ty
-                  }else{
-                    emmm.src = `./Super icons/defualtman.png`;
-                    console.error('Error fetching profile picture:', error.message);
-                  }
-            }
-    })
-}
-
-async function ChatterMate() {
-
-    const figureMan = document.querySelector('.currentchatterinfor figure');
-
-    figureMan.addEventListener('click', async () => {
-        documentte.style.display = 'flex';
-        const pals = figureMan.getAttribute('RAdata-set-aria')
-        const storageRef = ref(firebaseService.storage, `profilePictures/${pals}.jpg`);
-        const defaultRef = ref(firebaseService.storage, `profilePictures/defualtman.png`);
-        try {
-            const dowm = await getDownloadURL(storageRef);
-            emmm.src = dowm;
-        } catch (error) {
-            if (error.code === 'storage/object-not-found') {
-                const ty = await getDownloadURL(defaultRef);
-                emmm.src = ty;
-            } else {
-                emmm.src = `./Super icons/defualtman.png`;
-                console.error('Error fetching profile picture:', error.message);
-            }
-        }
-
-    });
-}
-await ChatterMate()
-
-// async function updateUserStatus(isOnline) {
-//     const user = auth.currentUser;
-//     if (!user) return;
-//     const userStatusRef = doc(firebaseService.db, `status/${user.uid}`);
-//     await setDoc(userStatusRef, {
-//         state: isOnline ? 'online' : 'offline',
-//         firstName: user.email,
-//         last_changed: serverTimestamp()
-//     }, { merge: true });
-// }
-// onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//         updateUserStatus(true); 
-        
-//         window.addEventListener('beforeunload', () => {
-//             updateUserStatus(false);
-//         });
-        
-//     }
-// });
-// window.addEventListener('online', updateUserStatus(true))
-// window.addEventListener('offline', updateUserStatus(false)) 
-// function displayUserStatus(otherUserId, userTagElement) {
-//     const otherUserStatusRef = doc(firebaseService.db, `status/${otherUserId}`);
-//     const onlineDetectorElement = userTagElement.querySelector('.active_detect')
-//     // Listen for real-time changes in user status
-//     console.log(onlineDetectorElement)
-//     onSnapshot(otherUserStatusRef, (snapshot) => {
-//         const status = snapshot.data();
-//         if (status?.state === 'online') {
-//             onlineDetectorElement.style.backgroundColor = 'green';
-//         } else {
-//             onlineDetectorElement.style.backgroundColor = 'red';
-//         }
-//     });
-// }
-
-
-
-
-
-////////////////////////////////////////////////////
-
-
-
-// Initialize WebSocket and Firestore updates
-function initializeWebSocket(userId) {
-    socket = new WebSocket('ws://localhost:8080');
-    // WebSocket opened (user online)
-    socket.onopen = async () => {
-        console.log('WebSocket connected');
-        await updateFirestoreStatus(userId, true);
-    };
-
-    // WebSocket closed (user offline)
-    socket.onclose = async () => {
-        // console.log('WebSocket disconnected');
-        await updateFirestoreStatus(userId, false);
-    };
-
-    // Listen for messages from the server
-    socket.onmessage = (event) => {
-        console.log('Message received from server:', event.data);
-    };
-
-    // Send a test message to the server
-    document.getElementById('sendButton')?.addEventListener('click', () => {
-        socket.send('User sent a test message!');
-    });
-}
-// Function to update Firestore status
-async function updateFirestoreStatus(userId, isOnline) {
-    try {
-        await updateDoc(doc(firebaseService.db, "users", userId), {
-            isActive: isOnline,
-            lastActive: serverTimestamp()
-        });
-        // console.log(`User status updated: ${isOnline ? 'Online' : 'Offline'}`);
-    } catch (error) {
-        console.error("Error updating Firestore:", error);
-    }
-}
-
-// Call WebSocket initialization
-
-
-
-
-function HideSettings(){
-    iconsdem[2].addEventListener('click', function(){
-        if(settingsPopup.classList.contains('steeze')){
-            settingsPopup.classList.add('steeze1')
-            settingsPopup.classList.remove('steeze')
-        }
-    })
-}
-
-async function logoutUser() {
-    const auth = getAuth();
-    try {
-      await signOut(auth);
-      window.location.href = './indexLogin.html';
-    }catch(error) {
-      console.error('Error logging out:', error);
-    }
-}
-  
-function Tologout(){
-    let logoutbud = document.querySelector('.namecoms button')
-    logoutbud.onclick = () => {
-        logoutUser()
-    }
-}
-
-function ContentDrop(){
-    contentdrop2.addEventListener('click', function(){
-        if(droplist.classList.contains('insidehide')){
-            droplist.classList.remove('insidehide')
-            droplist.classList.add('outsideshow')
-        }else{
-            droplist.classList.remove('outsideshow')
-            droplist.classList.add('insidehide')
-        }
-    })
-}
-
-window.onclick = function(event){
-    if(!event.target.matches('.comeins i') && !event.target.matches('.dropdown1')){
-        droplist.classList.remove('outsideshow')
-        droplist.classList.add('insidehide')
-    }
-}
-document.addEventListener('click', function(event){
-    if(iconsdem[2].contains(event.target)){
-        settingsPopup.classList.add('steeze1')
-        settingsPopup.classList.remove('steeze')
-    }else if(!settingsPopup.contains(event.target)){
-        settingsPopup.classList.remove('steeze1')
-        settingsPopup.classList.add('steeze')
-    }
-})
-window.addEventListener('online', ()=>{
-    FreashIn()
-    setTimeout(()=>{
-        location.reload()
-    },3000)
-})
-window.addEventListener('offline', FreashOff)
-function FreashIn(){
-    let totori = document.createElement('div')
-        totori.className = 'updater';
-        let pink = document.createElement('p')
-            pink.innerHTML = 'You\'re Back Online';
-            totori.append(pink)
-
-
-        document.body.append(totori)
-
-        setTimeout(() =>{
-            totori.remove()
-        }, 6000)
-}
-function FreashOff(){
-    let totori = document.createElement('div');
-        totori.className = 'updater';
-        let pink = document.createElement('p')
-            pink.innerHTML = 'Your Internet connection is down';
-            totori.append(pink)
-        document.body.append(totori)
-        setTimeout(() =>{
-            totori.remove()
-        }, 9000)
-}
-window.addEventListener("play", function(evt) {
-    if(window.$_currentlyPlaying && window.$_currentlyPlaying != evt.target) {
-      window.$_currentlyPlaying.pause();
-    }
-    window.$_currentlyPlaying = evt.target;
-}, true);
-
-
-ContentDrop()
-HideSettings()
-document.addEventListener("DOMContentLoaded", loadAllUsers())
-
 async function VoiceNoteMessage(Currentuser, Element) {
 
     let audiolhunks = [];
@@ -1771,4 +1478,180 @@ async function VoiceNoteMessage(Currentuser, Element) {
 
 
 }
+async function checkDataAvailability() {
+    try {
+        const response = await fetch("https://www.google.com/favicon.ico", { mode: "no-cors" });
+        console.log("✅ Data is available.");
+    } catch (error) {
+        firebaseService.showToast("⚠ You may have run out of data! Check your internet connection.", 'error');
+    }
+}
+
+function ToViewUserspictureInMax(userId){
+    const figureMan = document.querySelector('.iconsdem figure')
+    figureMan.addEventListener('click', async ()=>{
+        documentte.style.display = 'flex'
+
+            const storageRef = ref(firebaseService.storage, `profilePictures/${userId}.jpg`);
+            const defaultRef = ref(firebaseService.storage, `profilePictures/defualtman.png`);
+           
+            try {
+                const dowm = await getDownloadURL(storageRef)
+                emmm.src = dowm
+            } catch (error) {
+                  if (error.code === 'storage/object-not-found'){
+                    const ty = await getDownloadURL(defaultRef)
+                    emmm.src = ty
+                  }else{
+                    emmm.src = `./Super icons/defualtman.png`;
+                    console.error('Error fetching profile picture:', error.message);
+                  }
+            }
+    })
+}
+
+async function ChatterMate() {
+
+    const figureMan = document.querySelector('.currentchatterinfor figure');
+
+    figureMan.addEventListener('click', async () => {
+        documentte.style.display = 'flex';
+        const pals = figureMan.getAttribute('RAdata-set-aria')
+        const storageRef = ref(firebaseService.storage, `profilePictures/${pals}.jpg`);
+        const defaultRef = ref(firebaseService.storage, `profilePictures/defualtman.png`);
+        try {
+            const dowm = await getDownloadURL(storageRef);
+            emmm.src = dowm;
+        } catch (error) {
+            if (error.code === 'storage/object-not-found') {
+                const ty = await getDownloadURL(defaultRef);
+                emmm.src = ty;
+            } else {
+                emmm.src = `./Super icons/defualtman.png`;
+                console.error('Error fetching profile picture:', error.message);
+            }
+        }
+
+    });
+}
+await ChatterMate()
+
+
+
+function searchQueryFunction(){
+    document.querySelector('.newsmargin input').addEventListener('input', function () {
+        const searchQuery = this.value.toLowerCase();
+        const userElements = document.querySelectorAll('.individualchat');
+    
+        userElements.forEach(userElement => {
+            const userName = userElement.querySelector('.username_chat h3').textContent.toLowerCase();
+            if (searchQuery ==='' || userName.includes(searchQuery)) {
+                userElement.style.display = 'flex'; 
+            }else {
+                userElement.style.display = 'none'; 
+            }
+        });
+    });
+    
+}
+
+function HideSettings(){
+    iconsdem[2].addEventListener('click', function(){
+        if(settingsPopup.classList.contains('steeze')){
+            settingsPopup.classList.add('steeze1')
+            settingsPopup.classList.remove('steeze')
+        }
+    })
+}
+
+async function logoutUser() {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      window.location.href = './indexLogin.html';
+    }catch(error) {
+      console.error('Error logging out:', error);
+    }
+}
+  
+function Tologout(){
+    let logoutbud = document.querySelector('.namecoms button')
+    logoutbud.onclick = () => {
+        logoutUser()
+        updateUserStatus(false)
+    }
+}
+
+function ContentDrop(){
+    contentdrop2.addEventListener('click', function(){
+        if(droplist.classList.contains('insidehide')){
+            droplist.classList.remove('insidehide')
+            droplist.classList.add('outsideshow')
+        }else{
+            droplist.classList.remove('outsideshow')
+            droplist.classList.add('insidehide')
+        }
+    })
+}
+
+window.onclick = function(event){
+    if(!event.target.matches('.comeins i') && !event.target.matches('.dropdown1')){
+        droplist.classList.remove('outsideshow')
+        droplist.classList.add('insidehide')
+    }
+}
+document.addEventListener('click', function(event){
+    if(iconsdem[2].contains(event.target)){
+        settingsPopup.classList.add('steeze1')
+        settingsPopup.classList.remove('steeze')
+    }else if(!settingsPopup.contains(event.target)){
+        settingsPopup.classList.remove('steeze1')
+        settingsPopup.classList.add('steeze')
+    }
+})
+window.addEventListener('online', ()=>{
+    FreashIn()
+    setTimeout(()=>{
+        location.reload()
+    },3000)
+})
+window.addEventListener('offline', FreashOff)
+function FreashIn(){
+    let totori = document.createElement('div')
+        totori.className = 'updater';
+        let pink = document.createElement('p')
+            pink.innerHTML = 'You\'re Back Online';
+            totori.append(pink)
+
+
+        document.body.append(totori)
+
+        setTimeout(() =>{
+            totori.remove()
+        }, 6000)
+}
+function FreashOff(){
+    let totori = document.createElement('div');
+        totori.className = 'updater';
+        let pink = document.createElement('p')
+            pink.innerHTML = 'Your Internet connection is down';
+            totori.append(pink)
+        document.body.append(totori)
+        setTimeout(() =>{
+            totori.remove()
+        }, 9000)
+}
+window.addEventListener("play", function(evt) {
+    if(window.$_currentlyPlaying && window.$_currentlyPlaying != evt.target) {
+      window.$_currentlyPlaying.pause();
+    }
+    window.$_currentlyPlaying = evt.target;
+}, true);
+
+searchQueryFunction()
+ContentDrop()
+HideSettings()
+document.addEventListener("DOMContentLoaded", loadAllUsers())
+setInterval(checkDataAvailability, 10000);
+
 

@@ -130,7 +130,7 @@ async registerUser(credentials, userData) {
 async getUserData(uid) {
     const userDoc = await getDoc(doc(this.db, "users", uid));
     if (userDoc.exists()) {
-      return { id: userDoc.id, ...userDoc.data() }; // Return user data along with the ID
+      return { id: userDoc.id, ...userDoc.data() }; 
     } else {
       throw new Error("User not found");
     }
@@ -348,31 +348,31 @@ async listenForMessages11() {
 }
 
 notifyUser(userId, message) {
-  const userTag = document.querySelector(`.individualchat[data-user-id="${userId}"]`)
-
-  if (userTag) {
-    userTag.querySelector(".username_chat p").textContent = message.content;
-
-    if(typeof message.content === 'string') {
+    const userTag = document.querySelector(`.individualchat[data-user-id="${userId}"]`)
+    if (userTag) {
       userTag.querySelector(".username_chat p").textContent = message.content;
-    }else if (message.content?.type) {
-      userTag.querySelector(".username_chat p").textContent = `${message.content.type.toUpperCase()} File Sent`;
-    }else {
-      userTag.querySelector(".username_chat p").textContent = 'Unknown Message Type';
-    }
-    let abi;
-    if (message.timestamp && message.timestamp.seconds) {
-      abi = message.timestamp.seconds; 
-    } else if (message.timestamp && message.timestamp.toDate()) {
-      abi = Math.floor(message.timestamp.toDate().getTime() / 1000); 
+  
+      if(typeof message.content === 'string') {
+        userTag.querySelector(".username_chat p").textContent = message.content;
+      }else if (message.content?.type) {
+        userTag.querySelector(".username_chat p").textContent = `${message.content.type.toUpperCase()} File Sent`;
+      }else {
+        userTag.querySelector(".username_chat p").textContent = 'Unknown Message Type';
+      }
+      let abi;
+      if (message.timestamp && message.timestamp.seconds) {
+        abi = message.timestamp.seconds; 
+      } else if (message.timestamp && message.timestamp.toDate()) {
+        abi = Math.floor(message.timestamp.toDate().getTime() / 1000); 
+      } else {
+        abi = Math.floor(Date.now() / 1000);
+      }
+      userTag.querySelector('.times p').textContent = this.getRelativeTime1(abi);
+          
     } else {
-      abi = Math.floor(Date.now() / 1000);
+      console.warn(`User tag for sender ${userId} not found.`);
     }
-    userTag.querySelector('.times p').textContent = this.getRelativeTime1(abi);
-        
-  } else {
-    console.warn(`User tag for sender ${userId} not found.`);
-  }
+  
 }
 
 getRelativeTime1(timestamp) {
@@ -390,14 +390,14 @@ getRelativeTime1(timestamp) {
   const months = Math.floor(days / 30);
   const years = Math.floor(months / 12);
 
-  if (years > 0) return `${years} year${years > 1 ? 's' : ''}`;
-  if (months > 0) return `${months} month${months > 1 ? 's' : ''}`;
+  if (years > 0) return `${years} year${years > 1 ? 's' : ''} ago`;
+  if (months > 0) return `${months} month${months > 1 ? 's' : ''} ago`;
   if (days > 0) {
     return days === 1 ? 'Yesterday' : `${days}days ago`;
   }
-  if (hours > 0) return `${hours}hr${hours > 1 ? 's' : ''}`;
-  if (minutes > 0) return `${minutes}min${minutes > 1 ? 's' : ''}`;
-  return `just now`;
+  if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  return `Just now`;
 
 }
 
@@ -477,9 +477,9 @@ async listenForNewMessages(chatId, currentUserId) {
 async moveUserTagToTop(userId) {
   const secondusers = document.querySelector('.secondusers')
   const userTag = document.querySelector(`[data-user-id="${userId}"]`);
-  if (userTag){
+  if (secondusers && userTag){
       userTag.remove();
-      secondusers.append(userTag)
+      secondusers.prepend(userTag)
   }
 }
 
@@ -512,30 +512,7 @@ notifyUser12(senderId, message, messageId, chatId){
   })
 }
 
-// notifyUser12(senderId, message, messageId, chatId) {
-//   const userTag = document.querySelector(`.individualchat[data-user-id="${senderId}"]`);
-//   if (!userTag) return;
 
-//   const sww = userTag.querySelector('.times span .whatsappna');
-//   if(sww){
-//     if (!message.Status) {
-//       sww.style.backgroundColor = '#0a70ea';
-//     }else{
-//       sww.style.backgroundColor = '';
-//     }
-//   }
-//   // if (ActiveChat === chatId) { // Use ActiveChat instead of this.activeChatId
-//   //     sww.style.backgroundColor = '';
-//   //     this.markMessageAsSeen(chatId, messageId);
-//   // }
-
-//   userTag.removeEventListener("click", this.handleChatClick);
-//   this.handleChatClick = () => {
-//       sww.style.backgroundColor = '';
-//       this.markMessageAsSeen(chatId, messageId);
-//   };
-//   userTag.addEventListener("click", this.handleChatClick);
-// }
 
 async markMessageAsSeen(chatId, messageId) { 
     try {
@@ -553,6 +530,7 @@ async markMessageAsSeen(chatId, messageId) {
         this.showToast(`Error marking message as seen: ${error}`);
     }
 }
+
 
 
 async UpdateFirstName(userId, newFirstName){ 
@@ -614,7 +592,7 @@ updateLastMessage(chatId) {
       if (!chatId) {
           throw new Error("chatId is missing or invalid.");
       }
-
+      
       const messagesRef = collection(this.db, `chats/${chatId}/messages`);
       const q = query(messagesRef, orderBy("timestamp", "desc"), limit(1));
 
@@ -637,18 +615,19 @@ updateLastMessage(chatId) {
                     }
                   }
 
-                  if (returnDeletedSend) {
-                    if(typeof lastMessage.content === 'string') {
-                      returnDeletedSend.textContent = lastMessage.content
-                      console.log('stings')
-                    }else if (lastMessage.content.type) {
-                      console.log('file has type')
-                      returnDeletedSend.textContent = `${lastMessage.content.type.toUpperCase()} File Sent`;
-                    }else {
-                      console.log('errors')
-                      returnDeletedSend.textContent = 'Unknown Message Type';
-                    }
-                  }
+                    if (returnDeletedSend) {
+                      if(typeof lastMessage.content === 'string') {
+                        returnDeletedSend.textContent = lastMessage.content
+                        console.log('stings')
+                      }else if (lastMessage.content.type) {
+                        console.log('file has type')
+                        returnDeletedSend.textContent = `${lastMessage.content.type.toUpperCase()} File Sent`;
+                      }else {
+                        console.log('errors')
+                        returnDeletedSend.textContent = 'Unknown Message Type';
+                      }
+                    }                  
+                  
                   
               } else {
                   console.log('failed to work as needed')
