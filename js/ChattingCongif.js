@@ -232,6 +232,7 @@ onAuthStateChanged(auth, (user) => {
       firebaseService.listenForMessages11();
       firebaseService.listenForAllChats()
     } else {
+      updateUserStatus(false)
       console.error("No user is logged in. Redirecting to login...");
       window.location.href = './indexLogin.html';
     }
@@ -420,9 +421,7 @@ async function loadAllUsers() {
                 const figureMan = document.querySelector('.currentchatterinfor figure');
 
                 userElement.addEventListener('click', async () => {
-                    const otherUserStatusRef = collection(firebaseService.db, `status/${otherUserId}`);
-                    const ddkd = getDoc(otherUserStatusRef)
-                    console.log(otherUserStatusRef)
+            
                     document.querySelectorAll('.ForVoiceChat').forEach(NewElement => NewElement.remove())
                     if (isRecording && mediaRecorder && mediaRecorder.state !== "inactive"){
                         mediaRecorder.stream.getTracks().forEach(track => track.stop());

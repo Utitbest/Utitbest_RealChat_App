@@ -117,6 +117,7 @@ function timeOut() {
 
         let credentials = { email: Email.value, password: password.value };
         let userData = { firstname: Firstname.value, lastname: Lastname.value, email: Email.value, password: password.value };
+        Botton.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
 
         try{
           const userId =  await firebaseService.registerUser(credentials, userData)
@@ -127,10 +128,13 @@ function timeOut() {
             console.error("User info is null or undefined");
           }
 
-     
+          
           window.location.href = './UtitbestChatInterface.html';
+          Botton.innerHTML = `Let's Go!!`;
+
         }catch (error) {
           console.error("Error during registration:", error);
+          Botton.innerHTML = `Let's Go!!`;
             //   alert("There was an issue with registration. Please try again.")
         }
       
@@ -171,6 +175,33 @@ var eyesplash = document.querySelectorAll('.spack')
             // alert('hello')
         })
     })  
+}
+window.addEventListener('online', FreashIn)
+window.addEventListener('offline', FreashOff)
+function FreashIn(){
+    let totori = document.createElement('div')
+        totori.className = 'updater';
+        let pink = document.createElement('p')
+            pink.innerHTML = 'You\'re Back Online';
+            totori.append(pink)
+
+
+        document.body.append(totori)
+
+        setTimeout(() =>{
+            totori.remove()
+        }, 6000)
+}
+function FreashOff(){
+    let totori = document.createElement('div');
+        totori.className = 'updater';
+        let pink = document.createElement('p')
+            pink.innerHTML = 'Your Internet connection is down';
+            totori.append(pink)
+        document.body.append(totori)
+        setTimeout(() =>{
+            totori.remove()
+        }, 9000)
 }
 timeOut()
 RevealPassword()

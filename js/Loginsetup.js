@@ -63,14 +63,17 @@ async function Validation(){
                 ErroMsg.innerHTML = 'Maximum password require is 11 characters';
                 return
             }
-
+            
+            Button.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
             try{
                 const userId = await firebaseService.loginUser(Email.value, password.value);
                 window.location.href = './UtitbestChatInterface.html';
             }catch(error){
                 console.error("Error during login:", error);
-                firebaseService.showToast(`Wrong credential or check your internet connection`, 'error');
+                 Button.innerHTML = `Start Chatting!!`
+                // firebaseService.showToast(`Wrong credential or check your internet connection`, 'error');
             }
+            Button.innerHTML = `Start Chatting!!`
             password.value = '';
             Email.value = '';
             ErroMsg.innerHTML = '';
@@ -98,6 +101,34 @@ function Revealer(){
                     sickin.innerHTML = '<i class="fa fa-eye-slash vv"></i>';
                 }
     }
+}
+
+window.addEventListener('online', FreashIn)
+window.addEventListener('offline', FreashOff)
+function FreashIn(){
+    let totori = document.createElement('div')
+        totori.className = 'updater';
+        let pink = document.createElement('p')
+            pink.innerHTML = 'You\'re Back Online';
+            totori.append(pink)
+
+
+        document.body.append(totori)
+
+        setTimeout(() =>{
+            totori.remove()
+        }, 6000)
+}
+function FreashOff(){
+    let totori = document.createElement('div');
+        totori.className = 'updater';
+        let pink = document.createElement('p')
+            pink.innerHTML = 'Your Internet connection is down';
+            totori.append(pink)
+        document.body.append(totori)
+        setTimeout(() =>{
+            totori.remove()
+        }, 9000)
 }
 Validation()
 IfInputIsnull()
