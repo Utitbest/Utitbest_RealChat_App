@@ -697,6 +697,7 @@ async function initializeChat(chatId, userElement) {
                    
                     const forimage = document.createElement('img');
                     forimage.setAttribute('alt', `${message.content.name}`)
+                    forimage.className = 'imageForMessage';
                     forimage.src = message.content.url;
                     forimage.style.maxWidth = '300px';
                     forimage.style.height = '90%';
@@ -731,6 +732,7 @@ async function initializeChat(chatId, userElement) {
                     const videoName = document.createElement('utitno')
                             videoName.innerHTML = message.content.name;
                     const videotimecount = document.createElement('utitbest');
+                            videotimecount.className = "Videotimer_com"
                             videotimecount.innerText = '00:00'
                             videotimecount.style.position = 'absolute';
                             videotimecount.style.bottom = '5%';
@@ -1645,6 +1647,9 @@ window.addEventListener("play", function(evt) {
     }
     window.$_currentlyPlaying = evt.target;
 }, true);
+
+
+
 
 searchQueryFunction()
 ContentDrop()

@@ -1,0 +1,134 @@
+@import url("UtitbestChatInterface.css");
+
+*{
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+}
+@media only screen and (max-width:1000px) {
+    .imageForMessage{
+        width: 275px !important;
+    }
+   
+    .videoplayer{
+        width: 90%;
+    }
+    .Videotimer_com{
+        right: 44% !important;
+        bottom: 7% !important;
+    }
+}
+
+@media only screen and (max-width:950px) {
+    aside{
+        width: 6%;
+    }
+    main{
+        width: 94%;
+    }
+    main .user{
+        width: 40%;
+    }
+    main .chat_area{
+        width: 60%;
+    }
+    .preview{
+        right: -2em;
+    }
+    .flowsa{
+        max-width: 95%;
+    }
+    .inputing .selmm{
+        width: 95%;
+    }
+}
+@media only screen and (max-width:900px){
+    aside{
+        width: 7%;
+    }
+    main{
+        width: 93%;
+    }
+    .preview{
+        right: -4em;
+    } 
+}
+@media only screen and (max-width:850px){
+    .followby :is(div.frocalliconsmore){
+        display: none;
+    }
+    .currentchatterinfor {
+        width: 100%;
+    }
+}
+@media only screen and (max-width:750px){
+    main{
+        width: 90%;
+    }
+    aside{
+        width: 10%;
+        background-color: #eee;
+    }
+    main .chat_area{
+        width: 55%;
+    }
+    main .user{
+        width: 45%;
+    }
+    .inputing1 i{
+        font-size: 1.2em;
+    }
+}
+@media only screen and (max-width:730px){
+    main .user{
+        width: 100%;
+    }
+    main .chat_area{
+        display: none;
+    }
+}
+@media only screen and (max-width:570px){
+    aside{
+        width: 15%;
+    }
+    main{
+        width: 85%;
+    }
+}
+@media only screen and (max-width:470px){
+    .secondusers .individualchat{
+        height: 62px;
+    }
+    .steeze1{
+        left: 1%;
+    }
+    .settingsPopup{
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+    }
+    
+    .Profile_i {
+        padding: 0;
+        width: 93%;
+        justify-content: center;
+    }
+    .settingsPopup1 .contnet2{
+        justify-content: center;
+    }
+    .Chat{
+        padding-top:47% ;
+    }
+    .vid_voce {
+        padding-top: 45%;
+    }
+    .Customize p{
+        top: 2.1em;
+    }
+    .namecoms button{
+        /* margin-top: 14.5em !important; */
+    }
+    .namecoms .informs{
+        margin-top:2em !important;
+    }
+}

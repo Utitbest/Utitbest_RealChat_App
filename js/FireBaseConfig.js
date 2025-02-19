@@ -20,7 +20,7 @@ export default class FirebaseService {
 
   }
 
-  showToast(message, type = "success") {
+showToast(message, type = "success") {
     Toastify({
       text: message,
       duration: 4000,
@@ -29,7 +29,7 @@ export default class FirebaseService {
       position: "right",
       backgroundColor: type === "success" ? "green" : "red",
     }).showToast();
-  }
+}
 
   
 
