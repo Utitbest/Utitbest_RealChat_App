@@ -224,6 +224,20 @@ div :is(div .times){
     height: 100%;
     align-items: center;
 }
+.ToRemovethis{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #eee;
+    cursor: pointer;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    z-index: 122;
+}
 .mansnd{
     width: 100%;
     height: 50%;
@@ -314,6 +328,18 @@ div :is(div .times){
     width: inherit;
     object-fit: cover;
     object-position: top;
+}
+.currentchatterinfor span{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    background-color: #eee;
+    cursor: pointer;  
+    margin-right:1.5em ;  
+    z-index: 122;
 }
 .chattername {
     display: flex;
@@ -706,7 +732,15 @@ div :is(div .times){
     width: 70%;
     display: flex;
     overflow: hidden;
+    position: relative;
     background: #ffffff;
+}
+.containerRpy{
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    width: 100%;
+    height: 100%;    
 }
 .settingsPopup1 .contnet1 .listOfcontents{
     display: flex;
@@ -720,6 +754,9 @@ div :is(div .times){
     justify-content: space-around;
     cursor: pointer;
     padding:.3em .2em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .settingsPopup1 .contnet1 .listOfcontents:hover{
     background-color: #d8d5d591;
@@ -1180,11 +1217,18 @@ div :is(div .times){
 .videoMessageTag{
     width: 300px;
     display: flex;
-    height: auto;
+    height: 400px;
     flex-direction: column;
     position: relative;
     align-items: center;
     overflow: hidden;
+}
+.towrapImage{
+    height: 400px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .videoman{
     display: none;

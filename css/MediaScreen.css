@@ -6,10 +6,6 @@
     margin: 0;
 }
 @media only screen and (max-width:1000px) {
-    .imageForMessage{
-        width: 275px !important;
-    }
-   
     .videoplayer{
         width: 90%;
     }
@@ -94,6 +90,9 @@
     main{
         width: 85%;
     }
+    .chattername{
+        width: 60%;
+    }
 }
 @media only screen and (max-width:470px){
     .secondusers .individualchat{
@@ -125,10 +124,26 @@
     .Customize p{
         top: 2.1em;
     }
-    .namecoms button{
-        /* margin-top: 14.5em !important; */
-    }
+    
     .namecoms .informs{
         margin-top:2em !important;
     }
+    .preview{
+        width: 100%;
+        bottom: 13%;
+        right: -2em;
+    }
+}
+@media only screen and (max-width:470px){
+    .towrapImage{
+        height: 300px;
+        width: 255px;
+    }
+    .videoman{
+        font-size: 34px;
+    }
+    .videoMessageTag{
+        height: 300px;
+        width: 255px;
+    } 
 }

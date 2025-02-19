@@ -41,7 +41,8 @@ let socket = new WebSocket('ws://localhost:8080');
 var contentdrop2 = document.querySelector('.Bored2');
 var settings = document.querySelectorAll('.listOfcontents')
 var droplist = document.querySelector('.dropdown1')
-var containerRpy = document.querySelector('.contnet2')
+const DetailsRemover = document.querySelector('.ToRemovethis')
+var containerRpy = document.querySelector('.containerRpy')
 var iconsdem = document.querySelectorAll('.iconsdem span');
 var settingsPopup = document.querySelector('.settingsPopup')
 var secondusers = document.querySelector('.secondusers')
@@ -416,7 +417,7 @@ async function loadAllUsers() {
                 setUserProfilePicture(user.id, userElement)
                 
                 displayUserStatus(user.id, userElement)
-
+                
                 const repumm = document.querySelector('.currentchatterinfor figure img')
                 const figureMan = document.querySelector('.currentchatterinfor figure');
 
@@ -468,6 +469,8 @@ async function loadAllUsers() {
                     initializeChat(chatId, userElement);
                     sendingFilesAsSMS(chatId, currentUserId, otherUserId)
                     VoiceNoteMessage(currentUserId, userElement)
+                    FunctionForDifferentViewPort()
+                    
                 });
                
 
@@ -694,16 +697,17 @@ async function initializeChat(chatId, userElement) {
                         <h6>${getRelativeTime(message.timestamp.seconds)}</h6>
                     `;
                 } else if (message.content?.type === 'image') {
-                   
+                    const towrapImage = document.createElement('div')
+                    towrapImage.className = 'towrapImage'
                     const forimage = document.createElement('img');
                     forimage.setAttribute('alt', `${message.content.name}`)
                     forimage.className = 'imageForMessage';
                     forimage.src = message.content.url;
-                    forimage.style.maxWidth = '300px';
-                    forimage.style.height = '90%';
+                    forimage.style.width = '100%';
+                    forimage.style.height = '100%';
                     forimage.style.borderRadius = '1em';
                     forimage.style.cursor = 'pointer'
-
+                    towrapImage.appendChild(forimage)
                     const follwed = document.createElement('utitno')
                     follwed.innerText = message.content.name;
                     follwed.style.paddingTop = '.3em';
@@ -712,7 +716,7 @@ async function initializeChat(chatId, userElement) {
                     const ftime = document.createElement('h6')
                     ftime.innerText = getRelativeTime(message.timestamp.seconds)
 
-                    messageElement2.append(forimage, follwed, ftime)
+                    messageElement2.append(towrapImage, follwed, ftime)
 
                     forimage.addEventListener('click', ()=>{
                         documentte.style.display = 'flex';
@@ -1594,6 +1598,37 @@ function ContentDrop(){
     })
 }
 
+function FunctionForDifferentViewPort(){
+    if (window.innerWidth <= 730) { 
+        const chatContainer = document.querySelector("main .chat_area");
+        const backArrow = document.querySelector(".currentchatterinfor span");
+        const userListContainer = document.querySelector(".secondary-container");
+        const userElement = document.querySelectorAll('.individualchat')
+        
+        chatContainer.style.display = "flex"; 
+        chatContainer.style.position = 'absolute'
+        chatContainer.style.top = '0';
+        chatContainer.style.width = '100%'
+        chatContainer.style.height = '100%'
+        backArrow.style.display = 'flex';
+        chatContainer.style.left = '0';
+        
+
+        backArrow.addEventListener("click", () => {
+            chatContainer.style.display = "none"; 
+            userElement.forEach(tag =>{
+               if(tag.classList.contains('usertagColor')){
+                    tag.classList.remove('usertagColor')
+               }
+            })
+            backArrow.style.display = 'none';
+        });
+    }
+    
+}
+  
+
+
 window.onclick = function(event){
     if(!event.target.matches('.comeins i') && !event.target.matches('.dropdown1')){
         droplist.classList.remove('outsideshow')
@@ -1609,6 +1644,14 @@ document.addEventListener('click', function(event){
         settingsPopup.classList.add('steeze')
     }
 })
+function DetailsRemoverFN(){
+    DetailsRemover.addEventListener('click', ()=>{
+        if(settingsPopup.classList.contains('steeze1')){
+            settingsPopup.classList.remove('steeze1')
+            settingsPopup.classList.add('steeze')
+        }
+    })
+}
 window.addEventListener('online', ()=>{
     FreashIn()
     setTimeout(()=>{
@@ -1649,8 +1692,7 @@ window.addEventListener("play", function(evt) {
 }, true);
 
 
-
-
+DetailsRemoverFN()
 searchQueryFunction()
 ContentDrop()
 HideSettings()
