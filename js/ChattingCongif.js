@@ -123,46 +123,7 @@ function Settings() {
 
                                     switch (i) {
                                         case 0:
-                                            containerRpy.innerHTML = `
-                                                <div class="Profile_i">
-                                                    <h2>Profile</h2>
-                                                    <div style="display:flex; width: 90%; align-items:end;">
-                                                        <label for="eel" style="margin-left: .5em; position: relative;" title="Change profile picture">
-                                                            <img src="" alt="">
-                                                            <i class="fa fa-edit rr"></i>
-                                                            <span class="spnman" style="position:absolute; align-items:center; justify-content:center; height:30px; width:30px; border-radius:50%; background:#3f6bde;">
-                                                                <i class="fa fa-spinner fa-spin"style="color:white;"></i>
-                                                            </span>
-                                                        </label>
-                                                        <button class="uploadalbum" style=" cursor:pointer; font-weight:600; display:flex; padding:.6em; height:15px; border:none; background:#3f6bde; color:white; border-radius:7px; align-items:center; justify-content:center;">Save</button>
-                                                       <input type="file" accept="image/*" id="eel" class="nothings">
-                                                    </div> 
-                                                    <div class="namecoms">
-                                                        <div class="informs" title="${userData.firstname}">
-                                                            <p>${userData.firstname}</p>
-                                                            <span class="EditName">
-                                                                <i class="fa fa-edit" style="z-index:-100;"></i>
-                                                            </span>
-                                                        </div>
-                                                        <div style="margin-top:.6em;" class="informs" title="${userData.lastname}">
-                                                            <p>${userData.lastname}</p>
-                                                            <span class="EditName">
-                                                                <i class="fa fa-edit" style="z-index:-100;"></i>
-                                                            </span>
-                                                        </div>
-                                                        <div style="margin-top:.6em;" class="informs" title="${userData.email}">
-                                                            <p>${userData.email}</p>
-                                                            <span class="EditName" style="visibility:hidden;">
-                                                                <i class="fa fa-edit"></i>
-                                                            </span>
-                                                        </div>
-                                                        <button style="margin-top:3.8em;" type="button">Log out</button>
-                                                    </div>
-                                                </div>
-                                            `;
-                                            UpdatingName(currentUserId);
-                                            Tologout();
-                                            updateprofilepic();
+                                            LoadUserInformation(userData)
                                             break;
                                         case 1:
                                             containerRpy.innerHTML = `
@@ -213,8 +174,51 @@ function Settings() {
                             }
                         }
                     };
+                    const LoadUserInformation = (userData) =>{
+                        containerRpy.innerHTML = `
+                        <div class="Profile_i">
+                            <h2>Profile</h2>
+                            <div style="display:flex; width: 90%; align-items:end;">
+                                <label for="eel" style="margin-left: .5em; position: relative;" title="Change profile picture">
+                                    <img src="" alt="">
+                                    <i class="fa fa-edit rr"></i>
+                                    <span class="spnman" style="position:absolute; align-items:center; justify-content:center; height:30px; width:30px; border-radius:50%; background:#3f6bde;">
+                                        <i class="fa fa-spinner fa-spin"style="color:white;"></i>
+                                    </span>
+                                </label>
+                                <button class="uploadalbum" style=" cursor:pointer; font-weight:600; display:flex; padding:.6em; height:15px; border:none; background:#3f6bde; color:white; border-radius:7px; align-items:center; justify-content:center;">Save</button>
+                               <input type="file" accept="image/*" id="eel" class="nothings">
+                            </div> 
+                            <div class="namecoms">
+                                <div class="informs" title="${userData.firstname}">
+                                    <p>${userData.firstname}</p>
+                                    <span class="EditName">
+                                        <i class="fa fa-edit" style="z-index:-100;"></i>
+                                    </span>
+                                </div>
+                                <div style="margin-top:.6em;" class="informs" title="${userData.lastname}">
+                                    <p>${userData.lastname}</p>
+                                    <span class="EditName">
+                                        <i class="fa fa-edit" style="z-index:-100;"></i>
+                                    </span>
+                                </div>
+                                <div style="margin-top:.6em;" class="informs" title="${userData.email}">
+                                    <p>${userData.email}</p>
+                                    <span class="EditName" style="visibility:hidden;">
+                                        <i class="fa fa-edit"></i>
+                                    </span>
+                                </div>
+                                <button style="margin-top:3.8em;" type="button">Log out</button>
+                            </div>
+                        </div>`;
+                        UpdatingName(currentUserId);
+                        Tologout();
+                        updateprofilepic();
+                    }
 
                     initializeSettings();
+                    LoadUserInformation(userData)
+                    settings[0].classList.add('collorback');
 
                 } catch (error) {
                     console.error("Error retrieving user data:", error);
@@ -227,6 +231,7 @@ function Settings() {
 }
 
 Settings(); 
+
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
