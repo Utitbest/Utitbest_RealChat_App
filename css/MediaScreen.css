@@ -82,6 +82,16 @@
     main .chat_area{
         display: none;
     }
+    .individualchat{
+        z-index:15 ;
+    }
+    .tamesam{
+        bottom:0 !important;
+        position: unset !important;
+    }
+    .currentchatterinfor{
+        margin-bottom: 1em;
+    }
 }
 @media only screen and (max-width:570px){
     aside{

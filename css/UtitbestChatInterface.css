@@ -49,8 +49,9 @@ i{
 .mainbody{
     display:flex ;
     flex: 1 1 auto;
-    display: flex;
-    overflow: hidden;
+    overflow-y: auto;
+    width:100%;
+    height: 100vh;
 }
 aside{
     height: 100%;
@@ -127,7 +128,7 @@ main .chat_area{
     background-position: center;
 }
 .user .navbar{
-    height: 8%;
+    height: 55px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -144,6 +145,7 @@ main .chat_area{
     height: 35px;
     width: 90%;
     gap: 4px;
+    margin: 5px 0 ;
 }
 .newsmargin input{
     border: none;
@@ -156,7 +158,7 @@ main .chat_area{
     color: gray;
 }
 .user .secondusers{
-    height: 92%;
+    height: 100%;
     width: 100%;
     overflow-y: auto;
     padding: 2%;
@@ -284,7 +286,7 @@ div :is(div .times){
     flex-direction: column;
 }
 .followby{
-    height: 8%;
+    height: 59px;
     width: 100%;
     display: flex;
     border-bottom: 2px solid rgb(211, 211, 211);
@@ -384,7 +386,7 @@ div :is(div .times){
 }
 
 .chatlies{
-    height:84%;
+    height:100%;
     width: 100%;
     display: flex;
     /* flex:  1 1 auto; */
@@ -526,7 +528,7 @@ div :is(div .times){
 
 
 .theInputsEtc{
-    height: 8%;
+    height: 57px;
     width: 100%;
     background-color: #eee;
 }
@@ -1303,8 +1305,8 @@ div :is(div .times){
 
 .thumbnails {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     left: 1%;
     top: 1%;
     background-color: #eee;
