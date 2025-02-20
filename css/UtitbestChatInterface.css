@@ -600,6 +600,7 @@ div :is(div .times){
     background: none;
     cursor: text;
     display: flex;
+    resize: none;
     align-items: center;
     overflow-y: auto;
     color:#605c5c;
