@@ -32,11 +32,11 @@
 }
 body{
     line-height: 1.7;
-    height: 100vh;
+    /* height: 100vh; */
     position: relative;
     flex-direction: column;
-    overflow: hidden;
-    display: flex;
+    /* overflow: hidden; */
+    /* display: flex;    */
 }
 
 i{
@@ -49,7 +49,7 @@ i{
 .mainbody{
     display:flex ;
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow: hidden;
     width:100%;
     height: 100vh;
 }
@@ -164,6 +164,7 @@ main .chat_area{
     padding: 2%;
     align-items: center;
     flex-direction: column;
+    flex: 1;
 }
 .secondusers .individualchat{
     width: 100%;
@@ -286,9 +287,10 @@ div :is(div .times){
     flex-direction: column;
 }
 .followby{
-    height: 59px;
-    width: 100%;
+    /* height: 59px; */
+    /* width: 100%; */
     display: flex;
+    padding: 3px 0;
     border-bottom: 2px solid rgb(211, 211, 211);
     background-color: #ffffff;
 }
@@ -389,7 +391,7 @@ div :is(div .times){
     height:100%;
     width: 100%;
     display: flex;
-    /* flex:  1 1 auto; */
+    flex: 1;
     /* overflow-y: hidden; */
     overflow: hidden;
 }
@@ -528,8 +530,8 @@ div :is(div .times){
 
 
 .theInputsEtc{
-    height: 57px;
-    width: 100%;
+    /* height: 57px; */
+    /* width: 100%; */
     background-color: #eee;
 }
 .theInputsEtc .inputing{
@@ -562,10 +564,11 @@ div :is(div .times){
     justify-content: center;
     display: flex;
     font-size: 1.3em;
-    width: 10%;
-    height: 100%;
+    width: 10%; 
+    /*height: 100%; */
     border-radius: 10px;
     color: gray;
+    padding: 2px;
     font-weight: 600;
     cursor: pointer;
     user-select: none;
@@ -588,7 +591,7 @@ div :is(div .times){
 #messageinput{
     outline: none;
     border: none;
-    height: 100%;
+    /* height: 100%;*/
     width: 100%;
     padding: 0 .5em;
     border-radius: 10px;
@@ -596,7 +599,6 @@ div :is(div .times){
     overflow-wrap: break-word;
     word-break: break-word;
     white-space: pre-wrap;
-    max-width: 100%;
     background: none;
     cursor: text;
     display: flex;
@@ -610,8 +612,7 @@ div :is(div .times){
     font-size: 1.3em;
     color: white;
     margin-left: 1em;
-    width: 10%;
-    height: 100%;
+
     background-color: #3f6bde ;
     align-items: center;
     justify-content: center;
@@ -620,6 +621,7 @@ div :is(div .times){
     user-select: none;
     outline: none;
     border: none;
+    padding: 12px;
     -webkit-user-select: none;
     -moz-user-select: none;
 }
