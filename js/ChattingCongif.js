@@ -1370,15 +1370,15 @@ async function VoiceNoteMessage(Currentuser, Element) {
     });
 
     
-    Secondnew.append(ThirdElement);
-    NewElement.append(Secondnew);
+    Secondnew.appendChild(ThirdElement);
+    NewElement.appendChild(Secondnew);
 
     function startVoiceNote() {
         isRecording = true;
         XenderPlate.style.display = "none";
         contentdrop1.innerHTML = `<i class="fa fa-microphone fa-fade" style="color:red;"></i>`
         contentdrop2.style.visibility = 'hidden'
-        XenderParent.append(NewElement);
+        XenderParent.appendChild(NewElement);
 
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then((stream) => {

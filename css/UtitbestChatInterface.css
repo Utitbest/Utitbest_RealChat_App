@@ -1258,13 +1258,14 @@ div :is(div .times){
 }
 
 .ForVoiceChat{
-    height:80%;
+    height: 35px;
     display:flex;
     align-items: center;
     justify-content: center;
-    width:inherit;
+    width:80%;
     background-color: white;
     border-radius: 5px;
+    margin:5px 0;
     overflow: hidden;
 }
 .Secondnew{
