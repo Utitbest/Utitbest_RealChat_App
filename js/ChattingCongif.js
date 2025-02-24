@@ -1639,6 +1639,7 @@ function FunctionFor570_ViewPort(){
         Toggle1.addEventListener('click', ()=>{
             toshowSideBar()
         })
+        
         iconsdem[0].addEventListener('click', ()=>{
             HideSideBar()
         })
