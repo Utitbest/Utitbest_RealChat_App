@@ -1287,12 +1287,14 @@ div :is(div .times){
     background-color: #d8d5d591;
 }
 .toPreviewImageMessage{
+    display: none;
     height: 100vh;
     width: 100%;
-    display: none;
     position: absolute;
     z-index: 200;
     transition: 1s linear;
+    top: 0;
+    left: 0;
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(5px);
@@ -1326,4 +1328,15 @@ div :is(div .times){
     display: flex;
     width: 100%;
     height: 100%;
+}
+
+.ToPopChampange {
+    height: 35px;
+    width: 35px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #eee;
+    cursor: pointer;
 }

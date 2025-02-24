@@ -95,16 +95,37 @@
 }
 @media only screen and (max-width:570px){
     aside{
-        width: 15%;
+       position: absolute;
+       left: -10%;
+       top: 0;
+       display: flex;
+       z-index: 10;
+       transition: 0.2s linear;
+       width: 52px;
+    }
+    .user .navbar {
+        justify-content: space-around;
+    }
+    .navbar :is(.newsmargin) {
+        margin-right: 5px;
+        width: 80%;
+    }
+    .ToPopChampange{
+        display: flex;
+        margin: 0 5px;
     }
     main{
-        width: 85%;
+        width: 100%;
     }
     .chattername{
         width: 60%;
     }
 }
+
 @media only screen and (max-width:470px){
+    .navbar :is(.newsmargin){
+        width: 74%;
+    } 
     .secondusers .individualchat{
         height: 62px;
     }

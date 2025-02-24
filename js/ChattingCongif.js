@@ -56,7 +56,7 @@ const fileSelection = document.querySelector('.tochat')
 let contentDropClickListener;
 const currentimeofActive = document.querySelector('.chattername p')
 let contentdrop1 = document.getElementById('Bored1');
-
+const Toggle1 = document.getElementsByClassName('ToPopChampange')[0]
 let XenderPlate = document.querySelector('.inputing .selmm')
 let XenderParent = document.querySelector('.theInputsEtc .inputing')
 let currentPlayingAudio = null
@@ -556,10 +556,10 @@ async function updateprofilepic(){
                 selectedPic = null;
                 return
             }
-            const vaildfilesize = 10 * 1024 * 1024;
-
+            const vaildfilesize = 3 * 1024 * 1024;
+            console.log(vaildfilesize)
             if(file.size > vaildfilesize){
-                firebaseService.showToast('File size is greater than 10mb.', 'error')
+                firebaseService.showToast('File size is greater than 3mb.', 'error')
                 selectedPic = null
                 return;
             }
@@ -1466,8 +1466,8 @@ async function VoiceNoteMessage(Currentuser, Element) {
 
     async function sendVoiceNote(audioBlob, fileSize, fileType, filePath, fileName) {
         const otheruseruid = Element.getAttribute(`data-user-id`)
-        const NewChatID = [Currentuser, otheruseruid].sort().join('_'); 
-        console.log(fileName)
+        const NewChatID = [Currentuser, otheruseruid].sort().join('_');
+
         const messageContent = {
             type: "audio",
             name: fileName,
@@ -1544,9 +1544,6 @@ async function ChatterMate() {
     });
 }
 await ChatterMate()
-
-
-
 function searchQueryFunction(){
     document.querySelector('.newsmargin input').addEventListener('input', function () {
         const searchQuery = this.value.toLowerCase();
@@ -1631,7 +1628,37 @@ function FunctionForDifferentViewPort(){
     }
     
 }
-  
+// TO CONTINUE FROM HERE HOPE I UNDERSTAND THIS WELL, YESS SIR!!!!!
+function FunctionFor570_ViewPort(){
+    let sideBar = false
+    const asideElement = document.querySelector('aside')
+    if(window.innerWidth <= 570){
+        Toggle1.addEventListener('click', ()=>{
+            if(!sideBar){
+                toshowSideBar()
+            }else{
+                HideSideBar()
+            }            
+        })
+    }
+    function toshowSideBar(){
+        sideBar = true
+        asideElement.style.left = '0'        
+    }
+    function HideSideBar(){
+        sideBar = false
+        asideElement.style.left = '-10%' 
+    }
+    document.addEventListener('click', (event)=>{
+        if(Toggle1.contains(event.target)){
+            sideBar = false
+            asideElement.style.left = '0' 
+        }else if(!asideElement.contains(event.target)){
+            sideBar = false
+            asideElement.style.left = '-10%' 
+        }
+    })
+}
 
 
 window.onclick = function(event){
@@ -1696,7 +1723,7 @@ window.addEventListener("play", function(evt) {
     window.$_currentlyPlaying = evt.target;
 }, true);
 
-
+FunctionFor570_ViewPort()
 DetailsRemoverFN()
 searchQueryFunction()
 ContentDrop()
