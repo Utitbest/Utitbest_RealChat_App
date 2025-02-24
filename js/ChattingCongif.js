@@ -1630,32 +1630,30 @@ function FunctionForDifferentViewPort(){
 }
 // TO CONTINUE FROM HERE HOPE I UNDERSTAND THIS WELL, YESS SIR!!!!!
 function FunctionFor570_ViewPort(){
-    let sideBar = false
+    // let sideBar = false
     const asideElement = document.querySelector('aside')
+
     if(window.innerWidth <= 570){
+        iconsdem[0].innerHTML = `<i class="fa fa-xmark"></i>`;
+        iconsdem[0].style.backgroundColor = '#d1e7dd';
         Toggle1.addEventListener('click', ()=>{
-            if(!sideBar){
-                toshowSideBar()
-            }else{
-                HideSideBar()
-            }            
+            toshowSideBar()
+        })
+        iconsdem[0].addEventListener('click', ()=>{
+            HideSideBar()
         })
     }
     function toshowSideBar(){
-        sideBar = true
         asideElement.style.left = '0'        
     }
     function HideSideBar(){
-        sideBar = false
-        asideElement.style.left = '-10%' 
+        asideElement.style.left = '-100em' 
     }
     document.addEventListener('click', (event)=>{
         if(Toggle1.contains(event.target)){
-            sideBar = false
             asideElement.style.left = '0' 
         }else if(!asideElement.contains(event.target)){
-            sideBar = false
-            asideElement.style.left = '-10%' 
+            asideElement.style.left = '-100em' 
         }
     })
 }

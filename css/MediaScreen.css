@@ -96,7 +96,7 @@
 @media only screen and (max-width:570px){
     aside{
        position: absolute;
-       left: -10%;
+       left: -100em;
        top: 0;
        display: flex;
        z-index: 10;
