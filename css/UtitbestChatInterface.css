@@ -35,7 +35,7 @@ body{
     /* height: 100vh; */
     position: relative;
     /* flex-direction: column; */
-    /* overflow: hidden; */
+    overflow: hidden;
     /* width: 100%; */
     /* display: flex;    */
 }
