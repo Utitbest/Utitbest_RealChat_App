@@ -272,8 +272,10 @@ function displayUserStatus(otherUserId, userTagElement) {
         const status = snapshot.data();
         if (status?.state === 'online') {
             onlineDetectorElement.style.backgroundColor = '#1ca182';
+            onlineDetectorElement.title = 'Online';
         } else {
             onlineDetectorElement.style.backgroundColor = '';
+            onlineDetectorElement.title = 'Offline'
         }
     });
 }
