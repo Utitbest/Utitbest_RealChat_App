@@ -937,9 +937,13 @@ async function initializeChat(chatId, userElement) {
                     const messageElement = event.target.closest(".user_response");
                     const forthePag = messageElement.querySelector('.user_response p')
                     if (!messageElement) return;
-                    if (forthePag.innerText === 'Message Deleted'){
-                        return
-                    };
+                    if(forthePag){
+                        if (forthePag.innerText === 'Message Deleted'){
+                            console.log(forthePag.innerText)
+                            return
+                        };
+                    }
+                    
                     
                     const existingPopup = document.getElementById("confirm-popup");
                     if (existingPopup) {
