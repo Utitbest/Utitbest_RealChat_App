@@ -1,4 +1,4 @@
-@import url("UtitbestChatInterface.css");
+/* @import url("UtitbestChatInterface.css"); */
 
 *{
     padding: 0;
@@ -197,4 +197,9 @@
     .inputing .selmm .emojisicons {
         width: 13%;
     }
+}
+@media only screen and (max-width:330px){
+    .audiomessageTag{
+        width: 240px;
+    } 
 }
