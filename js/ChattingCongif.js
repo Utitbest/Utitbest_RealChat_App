@@ -935,13 +935,13 @@ async function initializeChat(chatId, userElement) {
                     event.preventDefault(); 
 
                     const messageElement = event.target.closest(".user_response");
+                    if(messageElement){
                     const forthePag = messageElement.querySelector('.user_response p')
-                    if (!messageElement) return;
+                    // if (!messageElement) return;
                     if(forthePag){
                         if (forthePag.innerText === 'Message Deleted'){
-                            console.log(forthePag.innerText)
-                            return
-                        };
+                        return
+                    };
                     }
                     
                     
@@ -1046,6 +1046,7 @@ async function initializeChat(chatId, userElement) {
                             document.removeEventListener("click", removePopup);
                         }
                     }, { once: true });
+                }
                 });
 
                 messageElement1.append(messageElement2);
