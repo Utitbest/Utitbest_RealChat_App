@@ -224,7 +224,7 @@ function Settings() {
                     console.error("Error retrieving user data:", error);
                 }
             } else {
-                window.location.href = './indexLogin.html';
+                window.location.href = './index.html';
             }
         });
     });
@@ -935,7 +935,11 @@ async function initializeChat(chatId, userElement) {
                     event.preventDefault(); 
 
                     const messageElement = event.target.closest(".user_response");
+                    const forthePag = messageElement.querySelector('.user_response p')
                     if (!messageElement) return;
+                    if (forthePag.innerText === 'Message Deleted'){
+                        return
+                    };
                     
                     const existingPopup = document.getElementById("confirm-popup");
                     if (existingPopup) {

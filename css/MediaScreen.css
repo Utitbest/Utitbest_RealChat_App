@@ -165,7 +165,7 @@
         right: -2em;
     }
 }
-@media only screen and (max-width:470px){
+@media only screen and (max-width:400px){
     .towrapImage{
         height: 300px;
         width: 255px;
@@ -177,4 +177,24 @@
         height: 300px;
         width: 255px;
     } 
+}
+@media only screen and (max-width:360px){
+    .towrapImage {
+        height: 270px;
+        width: 220px;
+    }
+    .videoMessageTag{
+        height: 270px;
+        width: 250px;
+    }
+    .inputing{
+        width: 75% !important;
+    }
+    .inputing .selmm button{
+        padding: 9px 5px !important;
+        margin: 0 !important;
+    }
+    .inputing .selmm .emojisicons {
+        width: 13%;
+    }
 }
