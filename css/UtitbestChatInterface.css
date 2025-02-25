@@ -32,7 +32,7 @@
 }
 body{
     line-height: 1.7;
-    /* height: 100vh; */
+    height: 100vh;
     position: relative;
     /* flex-direction: column; */
     overflow: hidden;
