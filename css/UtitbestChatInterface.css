@@ -34,9 +34,9 @@ body{
     line-height: 1.7;
     /* height: 100vh; */
     position: relative;
-    flex-direction: column;
-    overflow: hidden;
-    width: 100%;
+    /* flex-direction: column; */
+    /* overflow: hidden; */
+    /* width: 100%; */
     /* display: flex;    */
 }
 
