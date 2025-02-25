@@ -546,6 +546,7 @@ div :is(div .times){
     height: 100%;
     width: 20%;
     align-items: center;
+    /* overflow: hidden; */
 }
 .inputing .selmm{
     display: flex;

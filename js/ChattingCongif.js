@@ -271,9 +271,9 @@ function displayUserStatus(otherUserId, userTagElement) {
 
         const status = snapshot.data();
         if (status?.state === 'online') {
-            onlineDetectorElement.style.backgroundColor = 'green';
+            onlineDetectorElement.style.backgroundColor = '#1ca182';
         } else {
-            onlineDetectorElement.style.backgroundColor = 'red';
+            onlineDetectorElement.style.backgroundColor = '';
         }
     });
 }
@@ -1628,9 +1628,8 @@ function FunctionForDifferentViewPort(){
     }
     
 }
-// TO CONTINUE FROM HERE HOPE I UNDERSTAND THIS WELL, YESS SIR!!!!!
+
 function FunctionFor570_ViewPort(){
-    // let sideBar = false
     const asideElement = document.querySelector('aside')
 
     if(window.innerWidth <= 570){
@@ -1658,7 +1657,6 @@ function FunctionFor570_ViewPort(){
         }
     })
 }
-
 
 window.onclick = function(event){
     if(!event.target.matches('.comeins i') && !event.target.matches('.dropdown1')){
