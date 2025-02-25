@@ -559,7 +559,6 @@ async function updateprofilepic(){
                 return
             }
             const vaildfilesize = 3 * 1024 * 1024;
-            console.log(vaildfilesize)
             if(file.size > vaildfilesize){
                 firebaseService.showToast('File size is greater than 3mb.', 'error')
                 selectedPic = null
@@ -1487,7 +1486,7 @@ async function VoiceNoteMessage(Currentuser, Element) {
         };
             try{
                 await firebaseService.sendMessage(NewChatID, Currentuser, otheruseruid, messageContent);
-                firebaseService.showToast("Voice note sent!", "success");
+                // firebaseService.showToast("Voice note sent!", "success");
             }
             catch(error){
                 contentdrop2.style.visibility = 'visible'
