@@ -92,6 +92,9 @@
     .currentchatterinfor{
         margin-bottom: 1em;
     }
+    .signs{
+        display: none !important;
+    }
 }
 @media only screen and (max-width:570px){
     aside{
