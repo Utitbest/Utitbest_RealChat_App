@@ -1614,7 +1614,7 @@ function FunctionForDifferentViewPort(){
     if (window.innerWidth <= 730) { 
         const chatContainer = document.querySelector("main .chat_area");
         const backArrow = document.querySelector(".currentchatterinfor span");
-        const userListContainer = document.querySelector(".secondary-container");
+        const userListContainer = document.querySelector("main .user");
         const userElement = document.querySelectorAll('.individualchat')
         
         chatContainer.style.display = "flex"; 
@@ -1624,9 +1624,10 @@ function FunctionForDifferentViewPort(){
         chatContainer.style.height = '100%'
         backArrow.style.display = 'flex';
         chatContainer.style.left = '0';
-        
+        userListContainer.style.display = 'none';
 
         backArrow.addEventListener("click", () => {
+            userListContainer.style.display = 'flex'
             chatContainer.style.display = "none"; 
             userElement.forEach(tag =>{
                if(tag.classList.contains('usertagColor')){
