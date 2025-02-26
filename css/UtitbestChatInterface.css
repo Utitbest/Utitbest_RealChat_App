@@ -304,7 +304,10 @@ div :is(div .times){
     width: 100%;
     display: flex;
     padding: 3px 0;
-    margin-bottom: 5px;
+    position: sticky;
+    left: 0;
+    top: 0;
+    /* margin-bottom: 5px; */
     border-bottom: 2px solid rgb(211, 211, 211);
     background-color: #ffffff;
 }
