@@ -304,7 +304,7 @@ div :is(div .times){
     width: 100%;
     display: flex;
     padding: 3px 0;
-    position: static;
+    position: fixed;
     left: 0;
     top: 0;
     /* margin-bottom: 5px; */
@@ -549,6 +549,9 @@ div :is(div .times){
 .theInputsEtc{
     height: 60px;
     width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     background-color: #eee;
 }
 .theInputsEtc .inputing{
