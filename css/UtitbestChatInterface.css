@@ -258,12 +258,9 @@ div :is(div .times){
     align-items: center;
 }
 .times p{
-    
-    
     font-size: 10px;
     font-weight: 500;
     color: rgb(95, 93, 93);
-    
     overflow: hidden;
     white-space: nowrap;
     text-overflow:ellipsis ;
