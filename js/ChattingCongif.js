@@ -865,7 +865,9 @@ async function initializeChat(chatId, userElement) {
                             messageElement2.append(audiomessageTag, albumname, timescrap)
 
                             const audio = document.createElement('audio')
+                            audio.setAttribute("type", "audio/mp3");
                             audio.src = message.content.url
+                            audio.preload = "auto";
                             let Isplaying = false;
                             let initializatDurateion = 0
                             let Fortmated = null
@@ -1281,7 +1283,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
             const uniqueId = Math.random().toString(36).substring(2, 10); 
             const fileName = `voice_notes_${Date.now()}_${uniqueId}.mp3`;
             const NewUploadName = selecion.name + fileName
-            console.log(NewUploadName)
+
             const storageRef = ref(firebaseService.storage, `chatFiles/${chatId}/${NewUploadName}`);
             const uploadTask = uploadBytesResumable(storageRef, selecion);
             uploadTask.on('state_changed', (snapshot) => {
@@ -1323,7 +1325,7 @@ async function sendingFilesAsSMS(chatId, senderId, recipientId){
                 };
     
                 await firebaseService.sendMessage(chatId, senderId, recipientId, messageContent);
-                console.log(NewUploadName)
+
                 firebaseService.showToast('File sent successfully!', 'success');
                 selecion = null;
                 document.querySelectorAll('.preview').forEach(preview => preview.remove());

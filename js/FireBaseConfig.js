@@ -281,7 +281,6 @@ async listenForMessages(chatId, callback) {
       this.activeListeners = this.activeListeners || {};
 
       if (this.activeListeners[chatId]) {
-          console.log(`Removing existing listener for chatId: ${chatId}`);
           this.activeListeners[chatId];//()
           delete this.activeListeners[chatId];
       }
