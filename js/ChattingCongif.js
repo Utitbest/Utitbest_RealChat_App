@@ -61,6 +61,18 @@ let XenderPlate = document.querySelector('.inputing .selmm')
 let XenderParent = document.querySelector('.theInputsEtc .inputing')
 let currentPlayingAudio = null
 
+// document.addEventListener("DOMContentLoaded", function () {
+//     setTimeout(() => {
+//         document.getElementById("preloader").classList.add("hide-preloader");
+//     }, 3000); // Delay for effect (adjust time as needed)
+// });
+window.addEventListener("load", function () {
+    setTimeout(() => {
+        document.getElementById("preloader").classList.add("hide-preloader");
+    }, 500); // Adjust the delay for better effect
+});
+
+
 ////////////////////////////////////////////////////////
 // Element creation & Existence
 let NewElement = document.createElement("div");/////////
