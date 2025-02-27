@@ -179,6 +179,19 @@
     .videoMessageTag{
         height: 300px;
         width: 255px;
+    }
+    .listOfcontents p{
+        display: none;
+    }
+    .settingsPopup1 .contnet1 .listOfcontents{
+        padding: 1em 0;
+    }
+    .settingsPopup1 .contnet1{
+        width: 15%;
+        padding: .2em;
+    }
+    .settingsPopup1 .contnet2{
+        width: 85%;
     } 
 }
 @media only screen and (max-width:360px){
