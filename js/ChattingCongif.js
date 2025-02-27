@@ -403,7 +403,7 @@ async function loadAllUsers() {
         
         secondusers.innerHTML = '';
 
-        if(users.length === 0){
+        if(users.length === 1){
             secondusers.innerHTML = `<p class="fa-fade" style="display:flex; align-items: center; justify-content: center; margin:auto; font-weight:700; font-size:18px; color:black; width:100%; white-space: nowrap; overflow:hidden; text-overflow: ellipsis; height:100%;">No other users found</p>`;
             return
         }
