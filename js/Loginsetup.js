@@ -67,7 +67,7 @@ async function Validation(){
             Button.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
             try{
                 const userId = await firebaseService.loginUser(Email.value, password.value);
-                window.location.href = './UtitbestChatInterface.html';
+                window.location.href = './index.html';
             }catch(error){
                 console.error("Error during login:", error);
                  Button.innerHTML = `Start Chatting!!`

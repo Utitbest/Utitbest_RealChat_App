@@ -129,7 +129,7 @@ function timeOut() {
           }
 
           
-          window.location.href = './UtitbestChatInterface.html';
+          window.location.href = './index.html';
           Botton.innerHTML = `Let's Go!!`;
 
         }catch (error) {

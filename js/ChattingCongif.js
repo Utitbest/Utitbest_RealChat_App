@@ -224,7 +224,7 @@ function Settings() {
                     console.error("Error retrieving user data:", error);
                 }
             } else {
-                window.location.href = './index.html';
+                window.location.href = './indexSignUp.html';
             }
         });
     });
